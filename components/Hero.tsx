@@ -6,7 +6,7 @@ import { ArrowDown, Code, BookOpen, Video, Download, ExternalLink } from 'lucide
 
 export default function Hero() {
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
+    <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 pt-20 md:pt-0">
       <div className="container-custom">
         <div className="text-center max-w-4xl mx-auto">
           <motion.div
