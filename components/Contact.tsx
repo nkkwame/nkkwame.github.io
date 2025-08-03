@@ -20,7 +20,7 @@ export default function Contact() {
     setIsLoading(true)
 
     try {
-      // EmailJS configuration
+      // Option 1: Try EmailJS first
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
@@ -31,12 +31,11 @@ export default function Contact() {
         to_email: 'nkkwame0162@gmail.com'
       }
 
-      // Send email using EmailJS
       await emailjs.send(
-        'service_portfolio', // Replace with your EmailJS service ID
-        'template_contact', // Replace with your EmailJS template ID
+        'service_uw8mjfj', // EmailJS service ID (you'll replace this)
+        'template_portfolio', // EmailJS template ID (you'll replace this)
         templateParams,
-        'your_public_key' // Replace with your EmailJS public key
+        'IEW2Mk1CNKMOa7W2N' // EmailJS public key (you'll replace this)
       )
 
       alert('Thank you! Your message has been sent successfully. I\'ll get back to you soon!')
@@ -49,8 +48,41 @@ export default function Contact() {
         timeline: ''
       })
     } catch (error) {
-      console.error('Error sending email:', error)
-      alert('Sorry, there was an error sending your message. Please try again or contact me directly at nkkwame0162@gmail.com')
+      console.error('EmailJS failed, trying Formspree...', error)
+      
+      // Option 2: Fallback to Formspree
+      try {
+        const formspreeResponse = await fetch('https://formspree.io/f/xpwzgnjd', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject || 'New Project Inquiry',
+            message: `Budget: ${formData.budget}\nTimeline: ${formData.timeline}\n\nMessage:\n${formData.message}`,
+            _replyto: formData.email
+          }),
+        })
+
+        if (formspreeResponse.ok) {
+          alert('Thank you! Your message has been sent successfully. I\'ll get back to you soon!')
+          setFormData({
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+            budget: '',
+            timeline: ''
+          })
+        } else {
+          throw new Error('Formspree also failed')
+        }
+      } catch (formspreeError) {
+        console.error('Both EmailJS and Formspree failed:', formspreeError)
+        alert('Sorry, there was an error sending your message. Please try again or contact me directly at josephkwame.nkrumah@stu.ucc.edu.gh')
+      }
     } finally {
       setIsLoading(false)
     }
