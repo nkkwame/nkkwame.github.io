@@ -194,8 +194,8 @@ export default function Contact() {
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white dark:bg-gray-700"
                   >
                     <option value="">Select budget range</option>
-                    <option value="5000-20000">₵5,000 - ₵20,000</option>
-                    <option value="20000-50000">₵20,000 - ₵50,000</option>
+                    <option value="1000-10000">₵1,000 - ₵10,000</option>
+                    <option value="10000-50000">₵10,000 - ₵50,000</option>
                     <option value="50000+">₵50,000+</option>
                   </select>
                 </div>
