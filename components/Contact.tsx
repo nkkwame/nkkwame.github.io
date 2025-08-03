@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import emailjs from '@emailjs/browser'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -11,54 +12,48 @@ export default function Contact() {
     budget: '',
     timeline: ''
   })
+  
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    // Option 1: Formspree (replace YOUR_FORM_ID with your actual Formspree form ID)
-    // Uncomment this when you have your Formspree ID:
-    /*
-    try {
-      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      })
-      
-      if (response.ok) {
-        alert('Thank you! Your message has been sent successfully. I\'ll get back to you soon!')
-        setFormData({
-          name: '',
-          email: '',
-          subject: '',
-          message: '',
-          budget: '',
-          timeline: ''
-        })
-      } else {
-        alert('Sorry, there was an error sending your message. Please try again.')
-      }
-    } catch (error) {
-      alert('Sorry, there was an error sending your message. Please try again.')
-    }
-    */
-    
-    // Option 2: Simple mailto (works immediately)
-    const emailBody = `
-Name: ${formData.name}
-Email: ${formData.email}
-Subject: ${formData.subject}
-Budget: ${formData.budget}
-Timeline: ${formData.timeline}
+    setIsLoading(true)
 
-Message:
-${formData.message}
-    `.trim()
-    
-    const mailtoUrl = `mailto:nkkwame@gmail.com?subject=${encodeURIComponent(formData.subject || 'Project Inquiry')}&body=${encodeURIComponent(emailBody)}`
-    window.location.href = mailtoUrl
+    try {
+      // EmailJS configuration
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        subject: formData.subject || 'New Project Inquiry',
+        message: formData.message,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        to_email: 'nkkwame@gmail.com'
+      }
+
+      // Send email using EmailJS
+      await emailjs.send(
+        'service_portfolio', // Replace with your EmailJS service ID
+        'template_contact', // Replace with your EmailJS template ID
+        templateParams,
+        'your_public_key' // Replace with your EmailJS public key
+      )
+
+      alert('Thank you! Your message has been sent successfully. I\'ll get back to you soon!')
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
+        budget: '',
+        timeline: ''
+      })
+    } catch (error) {
+      console.error('Error sending email:', error)
+      alert('Sorry, there was an error sending your message. Please try again or contact me directly at nkkwame@gmail.com')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -205,8 +200,8 @@ ${formData.message}
                 />
               </div>
 
-              <button type="submit" className="btn-primary w-full">
-                Send Message
+              <button type="submit" disabled={isLoading} className="btn-primary w-full disabled:opacity-50">
+                {isLoading ? 'Sending...' : 'Send Message'}
               </button>
             </form>
           </div>
