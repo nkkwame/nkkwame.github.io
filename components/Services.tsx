@@ -5,21 +5,21 @@ export default function Services() {
       title: 'Web Development',
       description: 'Custom web applications built with modern technologies and best practices.',
       features: ['Full-stack development', 'Responsive design', 'Performance optimization', 'SEO-friendly'],
-      price: 'Starting at $2000'
+      price: 'Starting at ₵20,000'
     },
     {
       id: 2,
       title: 'IT Training & Education',
       description: 'Comprehensive IT training programs for individuals and organizations.',
       features: ['Curriculum development', 'One-on-one mentoring', 'Group workshops', 'Online courses'],
-      price: 'Starting at $100/hour'
+      price: 'Starting at ₵1,000/hour'
     },
     {
       id: 3,
       title: 'Content Creation',
       description: 'Educational content and technical documentation for your audience.',
       features: ['Technical blog posts', 'Video tutorials', 'Course development', 'Documentation'],
-      price: 'Starting at $500'
+      price: 'Starting at ₵5,000'
     }
   ]
 
