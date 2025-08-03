@@ -44,7 +44,7 @@ export default function Hero() {
               Book a Project
             </Link>
             <a 
-              href={process.env.NODE_ENV === 'production' ? '/Kwame/resume.pdf' : '/resume.pdf'} 
+              href="/resume.pdf" 
               className="btn-secondary"
               target="_blank"
               rel="noopener noreferrer"

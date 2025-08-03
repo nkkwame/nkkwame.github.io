@@ -10,8 +10,8 @@ const nextConfig = {
         unoptimized: true,
         domains: ['images.unsplash.com', 'via.placeholder.com'],
     },
-    assetPrefix: process.env.NODE_ENV === 'production' ? '/Kwame' : '',
-    basePath: process.env.NODE_ENV === 'production' ? '/Kwame' : '',
+    assetPrefix: process.env.NODE_ENV === 'production' ? '/nkkwame' : '',
+    basePath: process.env.NODE_ENV === 'production' ? '/nkkwame' : '',
 }
 
 module.exports = nextConfig
