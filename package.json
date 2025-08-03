@@ -1,0 +1,49 @@
+{
+  "name": "kwame-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal portfolio and blog for Kwame - Developer, IT Teacher & Content Creator",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "lucide-react": "^0.290.0",
+    "framer-motion": "^10.16.0",
+    "gray-matter": "^4.0.3",
+    "marked": "^9.1.2",
+    "date-fns": "^2.30.0",
+    "next-themes": "^0.2.1",
+    "@tailwindcss/typography": "^0.5.10"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "@tailwindcss/forms": "^0.5.7"
+  },
+  "keywords": [
+    "portfolio",
+    "blog",
+    "developer",
+    "teacher",
+    "content-creator",
+    "next.js",
+    "react",
+    "typescript"
+  ],
+  "author": "Kwame",
+  "license": "MIT"
+}
