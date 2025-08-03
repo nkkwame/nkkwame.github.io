@@ -52,7 +52,7 @@ export default function Contact() {
       
       // Option 2: Fallback to Formspree
       try {
-        const formspreeResponse = await fetch('https://formspree.io/f/xpwzgnjd', {
+        const formspreeResponse = await fetch('https://formspree.io/f/mpwljnwo', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
