@@ -169,7 +169,7 @@ Deployment typically completes within 2-3 minutes of pushing changes.
 I'm always open to interesting conversations, collaboration opportunities, and helping fellow developers:
 
 - **Website**: [nkkwame.github.io](https://nkkwame.github.io)
-- **Email**: nkkwame@gmail.com
+- **Email**: nkkwame0162@gmail.com
 - **GitHub**: [@nkkwame](https://github.com/nkkwame)
 - **LinkedIn**: [Connect with me](https://linkedin.com/in/nkkwame)
 

@@ -28,7 +28,7 @@ export default function Contact() {
         message: formData.message,
         budget: formData.budget,
         timeline: formData.timeline,
-        to_email: 'nkkwame@gmail.com'
+        to_email: 'nkkwame0162@gmail.com'
       }
 
       // Send email using EmailJS
@@ -50,7 +50,7 @@ export default function Contact() {
       })
     } catch (error) {
       console.error('Error sending email:', error)
-      alert('Sorry, there was an error sending your message. Please try again or contact me directly at nkkwame@gmail.com')
+      alert('Sorry, there was an error sending your message. Please try again or contact me directly at nkkwame0162@gmail.com')
     } finally {
       setIsLoading(false)
     }
@@ -84,7 +84,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="font-medium">Email</div>
-                  <div className="text-gray-600 dark:text-gray-400">nkkwame@gmail.com</div>
+                  <div className="text-gray-600 dark:text-gray-400">josephkwame.nkrumah@stu.ucc.edu.gh</div>
                 </div>
               </div>
               <div className="flex items-center space-x-4">

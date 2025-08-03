@@ -11,7 +11,7 @@ Your contact form is now ready to send emails directly from your website! Follow
 1. In your EmailJS dashboard, go to **Email Services**
 2. Click **Add New Service**
 3. Choose **Gmail** (recommended)
-4. Connect your Gmail account (nkkwame@gmail.com)
+4. Connect your Gmail account (nkkwame0162@gmail.com)
 5. Copy the **Service ID** (something like `service_xxxxxxx`)
 
 ## Step 3: Create Email Template

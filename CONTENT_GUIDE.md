@@ -3,7 +3,7 @@
 ## Quick Content Updates
 
 ### 1. **Personal Info & Contact**
-- **Email**: Already updated to `nkkwame@gmail.com` in Contact section
+- **Email**: Already updated to `nkkwame0162@gmail.com` in Contact section
 - **Name**: Update in `components/Hero.tsx` (line with "Hi, I'm Kwame")
 - **Bio**: Update tagline and description in `components/Hero.tsx`
 
@@ -43,7 +43,7 @@ In `components/About.tsx`, update:
 
 ### **Option 1: Works Immediately (Current Setup)**
 - **Contact form** opens user's email client
-- **Emails sent to**: `nkkwame@gmail.com`
+- **Emails sent to**: `nkkwame0162@gmail.com`
 - **No setup required** - works right away!
 
 ### **Option 2: Professional Form (Recommended for production)**
@@ -95,13 +95,13 @@ In `components/About.tsx`, update:
 
 ### **Current Setup (Mailto)**
 - Messages open in visitor's email client
-- They send email directly to `nkkwame@gmail.com`
+- They send email directly to `nkkwame0162@gmail.com`
 - You receive in your Gmail inbox
 
 ### **With Formspree**
 - Messages sent to your email automatically
 - Form submissions stored in Formspree dashboard
-- Email notifications to `nkkwame@gmail.com`
+- Email notifications to `nkkwame0162@gmail.com`
 
 ### **Professional Setup Ideas**
 - **Slack notifications** when someone books

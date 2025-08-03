@@ -80,7 +80,7 @@ Make sure your GitHub repository is set up correctly:
    - Update `components/Services.tsx` with your pricing
 
 3. **Update Contact Email**
-   - Change email in `components/Contact.tsx` from `nkkwame@gmail.com` to your email
+   - Change email in `components/Contact.tsx` from `nkkwame0162@gmail.com` to your email
 
 ## 🔍 Testing Your Deployment
 

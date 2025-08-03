@@ -138,7 +138,7 @@ To use a custom domain:
 
 ## 📧 Contact
 
-- **Email**: nkkwame@gmail.com
+- **Email**: nkkwame0162@gmail.com
 - **GitHub**: [@nkkwame](https://github.com/nkkwame)
 - **Portfolio**: [nkkwame.github.io/Kwame](https://nkkwame.github.io/Kwame)
 
