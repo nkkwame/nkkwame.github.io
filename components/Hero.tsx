@@ -43,10 +43,15 @@ export default function Hero() {
               <ExternalLink className="w-5 h-5" />
               Book a Project
             </Link>
-            <Link href="/resume.pdf" className="btn-secondary">
+            <a 
+              href={process.env.NODE_ENV === 'production' ? '/Kwame/resume.pdf' : '/resume.pdf'} 
+              className="btn-secondary"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               <Download className="w-5 h-5" />
               Download CV
-            </Link>
+            </a>
           </motion.div>
 
           <motion.div

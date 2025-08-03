@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "export": "next build",
+    "deploy": "npm run export && touch out/.nojekyll"
   },
   "dependencies": {
     "next": "^14.0.0",
