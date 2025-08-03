@@ -1,3 +1,5 @@
+'use client'
+
 export default function Blog() {
   const blogPosts = [
     {
@@ -86,17 +88,23 @@ export default function Blog() {
                 {post.title}
               </h3>
               <p className="text-gray-600 dark:text-gray-400 mb-4">{post.excerpt}</p>
-              <a href={`/blog/${post.id}`} className="text-primary-600 dark:text-primary-400 font-medium hover:underline">
+              <button 
+                onClick={() => alert(`This would open: ${post.title}\n\nYou can add individual blog post pages later!`)}
+                className="text-primary-600 dark:text-primary-400 font-medium hover:underline cursor-pointer"
+              >
                 Read More →
-              </a>
+              </button>
             </article>
           ))}
         </div>
 
         <div className="text-center">
-          <a href="/blog" className="btn-primary">
+          <button 
+            onClick={() => alert('Blog page coming soon! For now, all posts are shown above.')}
+            className="btn-primary"
+          >
             View All Posts
-          </a>
+          </button>
         </div>
       </div>
     </section>
