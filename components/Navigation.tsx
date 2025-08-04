@@ -32,7 +32,7 @@ export default function Navigation() {
             <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center">
               <Code className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl gradient-text">Kwame Nkrumah</span>
+            <span className="font-bold text-xl gradient-text">IT Support</span>
           </Link>
 
           {/* Desktop Navigation */}
