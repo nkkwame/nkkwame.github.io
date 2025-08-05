@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://nkkwame.github.io/sitemap.xml
+
+# Allow all search engines to crawl the site
+# This portfolio is public and should be indexed
+
+# Block any sensitive or development files (if any)
+Disallow: /api/
+Disallow: /_next/
+Disallow: /out/
+
+# Allow specific important pages
+Allow: /
+Allow: /#about
+Allow: /#portfolio
+Allow: /#services
+Allow: /#blog
+Allow: /#contact

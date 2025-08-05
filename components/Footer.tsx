@@ -6,9 +6,9 @@ export default function Footer() {
 
   const socialLinks = [
     { name: 'GitHub', href: 'https://github.com/nkkwame', icon: Github },
-    { name: 'LinkedIn', href: 'https://linkedin.com/in/kwame', icon: Linkedin },
-    { name: 'Twitter', href: 'https://twitter.com/kwame', icon: Twitter },
-    { name: 'Email', href: 'mailto:hello@kwame.dev', icon: Mail },
+    { name: 'LinkedIn', href: 'https://linkedin.com/in/nkkwame', icon: Linkedin },
+    { name: 'Twitter', href: 'https://x.com/uccnewshub', icon: Twitter },
+    { name: 'Email', href: 'mailto:josephkwame.nkrumah@stu.ucc.edu.gh', icon: Mail },
   ]
 
   return (
@@ -70,7 +70,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            © {currentYear} Kwame. All rights reserved.
+            © {currentYear} Kwame Nkrumah. All rights reserved. Powered by YANA STUDIOS
           </p>
           <p className="text-gray-600 dark:text-gray-400 text-sm flex items-center mt-2 md:mt-0">
             Made with <Heart className="w-4 h-4 text-red-500 mx-1" /> and lots of coffee
