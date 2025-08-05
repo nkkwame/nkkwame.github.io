@@ -1,27 +1,59 @@
+'use client'
+
+import { useState } from 'react'
+import PaymentModal from './PaymentModal'
+
 export default function Services() {
+  const [paymentModal, setPaymentModal] = useState({
+    isOpen: false,
+    service: '',
+    amount: 0,
+    clientName: '',
+    clientEmail: ''
+  })
+
   const services = [
     {
       id: 1,
       title: 'Web Development',
       description: 'Custom web applications built with modern technologies and best practices.',
       features: ['Full-stack development', 'Responsive design', 'Performance optimization', 'SEO-friendly'],
-      price: 'Starting at ₵12,000'
+      price: 'Starting at ₵20,000',
+      amount: 20000
     },
     {
       id: 2,
       title: 'IT Training & Education',
       description: 'Comprehensive IT training programs for individuals and organizations.',
       features: ['Curriculum development', 'One-on-one mentoring', 'Group workshops', 'Online courses'],
-      price: 'Starting at ₵1,000'
+      price: '₵1,000/hour',
+      amount: 5000 // Example package price
     },
     {
       id: 3,
       title: 'Content Creation',
       description: 'Educational content and technical documentation for your audience.',
       features: ['Technical blog posts', 'Video tutorials', 'Course development', 'Documentation'],
-      price: 'Starting at ₵5,000'
+      price: 'Starting at ₵5,000',
+      amount: 5000
     }
   ]
+
+  const handlePaymentClick = (service: typeof services[0]) => {
+    // You could prompt for client details here or use a form
+    const clientName = prompt('Enter your name:') || 'Anonymous'
+    const clientEmail = prompt('Enter your email:') || 'client@example.com'
+    
+    if (clientName && clientEmail) {
+      setPaymentModal({
+        isOpen: true,
+        service: service.title,
+        amount: service.amount,
+        clientName,
+        clientEmail
+      })
+    }
+  }
 
   return (
     <section id="services" className="section-padding bg-gray-50 dark:bg-gray-800">
@@ -46,12 +78,30 @@ export default function Services() {
                 ))}
               </ul>
               <div className="text-xl font-semibold text-primary-600 mb-6">{service.price}</div>
-              <a href="#contact" className="btn-primary w-full">
-                Get Started
-              </a>
+              <div className="space-y-3">
+                <a href="#contact" className="btn-primary w-full">
+                  Get Quote
+                </a>
+                <button 
+                  onClick={() => handlePaymentClick(service)}
+                  className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+                >
+                  💳 Pay Now
+                </button>
+              </div>
             </div>
           ))}
         </div>
+
+        {/* Payment Modal */}
+        <PaymentModal
+          isOpen={paymentModal.isOpen}
+          onClose={() => setPaymentModal({ ...paymentModal, isOpen: false })}
+          service={paymentModal.service}
+          amount={paymentModal.amount}
+          clientName={paymentModal.clientName}
+          clientEmail={paymentModal.clientEmail}
+        />
       </div>
     </section>
   )
