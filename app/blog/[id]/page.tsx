@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { Calendar, Clock, User, Tag, ArrowLeft, BookOpen } from 'lucide-react'
+import { Calendar, Clock, User, Tag, ArrowLeft, BookOpen, ChevronLeft, ChevronRight } from 'lucide-react'
 import { blogPosts } from '@/data/blogData'
 import YouTubeEmbed from '@/components/YouTubeEmbed'
 import ShareButton from '@/components/ShareButton'
@@ -61,6 +61,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
   const relatedPosts = blogPosts
     .filter(p => p.id !== post.id && p.category === post.category)
     .slice(0, 3)
+
+  // Find previous and next posts
+  const currentIndex = blogPosts.findIndex(p => p.id === post.id)
+  const previousPost = currentIndex > 0 ? blogPosts[currentIndex - 1] : null
+  const nextPost = currentIndex < blogPosts.length - 1 ? blogPosts[currentIndex + 1] : null
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-20">
@@ -207,6 +212,50 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Navigation */}
         <div className="mt-16 pt-8 border-t border-[#27272a] max-w-4xl mx-auto">
+          {/* Post Navigation */}
+          <div className="flex justify-between items-center mb-8">
+            {/* Previous Post */}
+            <div className="flex-1">
+              {previousPost ? (
+                <Link
+                  href={`/blog/${previousPost.id}`}
+                  className="group flex items-center space-x-3 p-4 bg-[#1a1a1a] border border-[#27272a] rounded-lg hover:border-blue-500 transition-colors max-w-sm"
+                >
+                  <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors flex-shrink-0" />
+                  <div className="min-w-0">
+                    <div className="text-sm text-gray-400 mb-1">Previous</div>
+                    <div className="font-medium text-white group-hover:text-blue-400 transition-colors truncate">
+                      {previousPost.title}
+                    </div>
+                  </div>
+                </Link>
+              ) : (
+                <div className="max-w-sm"></div>
+              )}
+            </div>
+
+            {/* Next Post */}
+            <div className="flex-1 flex justify-end">
+              {nextPost ? (
+                <Link
+                  href={`/blog/${nextPost.id}`}
+                  className="group flex items-center space-x-3 p-4 bg-[#1a1a1a] border border-[#27272a] rounded-lg hover:border-blue-500 transition-colors max-w-sm text-right"
+                >
+                  <div className="min-w-0">
+                    <div className="text-sm text-gray-400 mb-1">Next</div>
+                    <div className="font-medium text-white group-hover:text-blue-400 transition-colors truncate">
+                      {nextPost.title}
+                    </div>
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors flex-shrink-0" />
+                </Link>
+              ) : (
+                <div className="max-w-sm"></div>
+              )}
+            </div>
+          </div>
+
+          {/* General Navigation */}
           <div className="flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
             <Link href="/blog" className="btn-secondary">
               <BookOpen className="w-4 h-4 mr-2" />
