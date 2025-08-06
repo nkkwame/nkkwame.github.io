@@ -213,13 +213,13 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         {/* Navigation */}
         <div className="mt-16 pt-8 border-t border-[#27272a] max-w-4xl mx-auto">
           {/* Post Navigation */}
-          <div className="flex justify-between items-center mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
             {/* Previous Post */}
-            <div className="flex-1">
+            <div className="flex-1 flex justify-start">
               {previousPost ? (
                 <Link
                   href={`/blog/${previousPost.id}`}
-                  className="group flex items-center space-x-3 p-4 bg-[#1a1a1a] border border-[#27272a] rounded-lg hover:border-blue-500 transition-colors max-w-sm"
+                  className="group flex items-center space-x-3 p-4 bg-[#1a1a1a] border border-[#27272a] rounded-lg hover:border-blue-500 transition-colors w-full sm:max-w-sm"
                 >
                   <ChevronLeft className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors flex-shrink-0" />
                   <div className="min-w-0">
@@ -230,7 +230,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   </div>
                 </Link>
               ) : (
-                <div className="max-w-sm"></div>
+                <div className="w-full sm:max-w-sm"></div>
               )}
             </div>
 
@@ -239,9 +239,9 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
               {nextPost ? (
                 <Link
                   href={`/blog/${nextPost.id}`}
-                  className="group flex items-center space-x-3 p-4 bg-[#1a1a1a] border border-[#27272a] rounded-lg hover:border-blue-500 transition-colors max-w-sm text-right"
+                  className="group flex items-center space-x-3 p-4 bg-[#1a1a1a] border border-[#27272a] rounded-lg hover:border-blue-500 transition-colors w-full sm:max-w-sm"
                 >
-                  <div className="min-w-0">
+                  <div className="min-w-0 text-right sm:text-right">
                     <div className="text-sm text-gray-400 mb-1">Next</div>
                     <div className="font-medium text-white group-hover:text-blue-400 transition-colors truncate">
                       {nextPost.title}
@@ -250,7 +250,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                   <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-400 transition-colors flex-shrink-0" />
                 </Link>
               ) : (
-                <div className="max-w-sm"></div>
+                <div className="w-full sm:max-w-sm"></div>
               )}
             </div>
           </div>
