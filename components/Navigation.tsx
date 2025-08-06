@@ -2,17 +2,31 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Menu, X, Code } from 'lucide-react'
+import { Menu, X, Code, ChevronDown } from 'lucide-react'
+
+interface NavigationItem {
+  name: string
+  href: string
+  dropdown?: { name: string; href: string }[]
+}
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
+  const [blogDropdownOpen, setBlogDropdownOpen] = useState(false)
 
-  const navigation = [
+  const navigation: NavigationItem[] = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '#about' },
     { name: 'Portfolio', href: '#portfolio' },
     { name: 'Services', href: '#services' },
-    { name: 'Blog', href: '#blog' },
+    { 
+      name: 'Blog', 
+      href: '#blog',
+      dropdown: [
+        { name: 'Latest Posts', href: '#blog' },
+        { name: 'All Posts', href: '/blog' },
+      ]
+    },
     { name: 'Contact', href: '#contact' },
   ]
 
@@ -31,13 +45,42 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
-              >
-                {item.name}
-              </Link>
+              item.dropdown ? (
+                <div 
+                  key={item.name}
+                  className="relative"
+                  onMouseEnter={() => setBlogDropdownOpen(true)}
+                  onMouseLeave={() => setBlogDropdownOpen(false)}
+                >
+                  <button className="flex items-center space-x-1 text-gray-300 hover:text-blue-400 transition-colors duration-200">
+                    <span>{item.name}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                  
+                  {/* Dropdown Menu */}
+                  {blogDropdownOpen && (
+                    <div className="absolute top-full left-0 mt-2 w-48 bg-[#1a1a1a] border border-[#27272a] rounded-lg shadow-xl z-50">
+                      {item.dropdown.map((dropdownItem) => (
+                        <Link
+                          key={dropdownItem.name}
+                          href={dropdownItem.href}
+                          className="block px-4 py-3 text-gray-300 hover:text-blue-400 hover:bg-[#27272a] transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                        >
+                          {dropdownItem.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-300 hover:text-blue-400 transition-colors duration-200"
+                >
+                  {item.name}
+                </Link>
+              )
             ))}
             
             {/* CTA Button */}
@@ -62,14 +105,30 @@ export default function Navigation() {
           <div className="md:hidden py-4 border-t border-[#27272a]">
             <div className="flex flex-col space-y-3">
               {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="text-gray-300 hover:text-blue-400 transition-colors duration-200 py-2"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.name}
-                </Link>
+                item.dropdown ? (
+                  <div key={item.name} className="space-y-2">
+                    <div className="text-gray-300 py-2 font-medium">{item.name}</div>
+                    {item.dropdown.map((dropdownItem) => (
+                      <Link
+                        key={dropdownItem.name}
+                        href={dropdownItem.href}
+                        className="text-gray-400 hover:text-blue-400 transition-colors duration-200 py-1 pl-4 block"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {dropdownItem.name}
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className="text-gray-300 hover:text-blue-400 transition-colors duration-200 py-2"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
               ))}
               <Link
                 href="#contact"

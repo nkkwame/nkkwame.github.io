@@ -340,4 +340,29 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Filter tag styles */
+  .filter-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  /* Dropdown animations */
+  .dropdown-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  
+  .dropdown-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.2s ease;
+  }
 }
