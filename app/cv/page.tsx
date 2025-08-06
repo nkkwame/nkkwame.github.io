@@ -30,19 +30,19 @@ export default function CVPage() {
     const cvContent = `
 Joseph Kwame Nkrumah - CV
 
-📍 Cape Coast, Ghana | 📞 +233 XXX XXX XXX | ✉️ nkkwame0162@gmail.com
-🔗 YouTube: YANA Studios | Telegram: @uccnewshub | GitHub: github.com/nkkwame
+Cape Coast, Ghana | +233 546 451 348 | josephkwame.nkrumah@stu.ucc.edu.gh
+YouTube: Kwame Nkrumah Studio | Telegram: @nkkwame | GitHub: github.com/nkkwame
 
-🎯 PROFESSIONAL SUMMARY
+PROFESSIONAL SUMMARY
 Creative and versatile IT student with strong expertise in full-stack web and mobile development, graphic design, and media content creation. Founder of YANA Studios 🎙, a youth-driven storytelling brand. Skilled in managing social platforms, producing educational content, and leading technical projects. Proficient in software engineering, UI/UX design, and video editing. Passionate about using technology and media to inform, empower, and educate.
 
-🧑‍💻 EDUCATION
+EDUCATION
 University of Cape Coast, Ghana
 BSc. Information Technology
 Expected Graduation: 2026
 Relevant Courses: Data Structures, Advanced Calculus, Web Development, Computing Education
 
-🛠 TECHNICAL SKILLS
+TECHNICAL SKILLS
 
 Programming & Development:
 • Python, JavaScript, Dart
@@ -60,9 +60,9 @@ Content Creation & Digital Strategy:
 • Blogging & SEO Optimization
 • Brand Development & Visual Identity
 
-🎬 CONTENT & MEDIA PROJECTS
+CONTENT & MEDIA PROJECTS
 
-Founder & Creative Director – YANA Studios (2023 – Present)
+Founder & Creative Director  YANA Studios (2023 - Present)
 • Produced student-centered documentaries and interviews (e.g. "Your Journey of Differences")
 • Built a cross-platform brand with educational and inspirational content
 • Managed remote teams for scripting, design, editing, and publishing
@@ -73,7 +73,7 @@ Digital Platforms:
 • YSStreet
 • UCC News Hub
 
-👨🏽‍🏫 TEACHING & ACADEMIC WORK
+TEACHING & ACADEMIC WORK
 
 Teaching Practice – Web Development (SHS Computing Curriculum), University of Cape Coast – 2025
 • Delivered a full lesson using real-life examples, core concept questions, and feedback techniques
@@ -84,13 +84,13 @@ Student Engagement:
 • Initiated academic support and digital literacy events
 • Created a GPA/CGPA calculator guide (PDF, video, and blog)
 
-💡 PROJECTS & INITIATIVES
+PROJECTS & INITIATIVES
 • GPA/CGPA Calculator Series
 • YANA MindShare – TED-style student talk platform
 • Diamond Club Talks – Health & awareness campaigns
 • Remote Creative Team Setup – for YANA Studios
 
-🏆 ACHIEVEMENTS
+ACHIEVEMENTS
 • Built and scaled a student-focused media brand from scratch
 • Developed and published cross-platform content
 • Delivered tutorial sessions on coding, digital tools, and content creation
