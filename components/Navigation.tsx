@@ -25,7 +25,7 @@ export default function Navigation() {
             <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-blue-400 rounded-lg flex items-center justify-center glow-blue">
               <Code className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl gradient-text">IT SPACE</span>
+            <span className="font-bold text-xl gradient-text">KN STUDIO</span>
           </Link>
 
           {/* Desktop Navigation */}
