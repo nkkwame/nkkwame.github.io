@@ -140,6 +140,22 @@ export default function Contact() {
                   <div className="text-gray-600 dark:text-gray-400">Usually within 24 hours</div>
                 </div>
               </div>
+              <div className="flex items-center space-x-4">
+                <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center">
+                  <span className="text-white">☕</span>
+                </div>
+                <div>
+                  <div className="font-medium">Support My Work</div>
+                  <a 
+                    href="https://buymeacoffee.com/nkkwame" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-yellow-500 hover:text-yellow-400 transition-colors font-medium"
+                  >
+                    Buy me a coffee ☕
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
 
