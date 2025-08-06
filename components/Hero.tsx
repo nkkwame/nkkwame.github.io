@@ -8,10 +8,9 @@ import SectionBackground from './SectionBackground'
 export default function Hero() {
   return (
     <SectionBackground variant="hero">
-      <section className="min-h-screen flex items-center justify-center pt-20 md:pt-0">
+      <section className="min-h-screen flex items-center justify-center pt-32 md:pt-24 lg:pt-16">
         <div className="container-custom">
-          <div className="text-center max-w-4xl mx-auto">
-            {/* Animated status badge */}
+          <div className="text-center max-w-4xl mx-auto">{/* Animated status badge */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

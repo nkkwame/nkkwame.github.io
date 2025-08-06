@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/ThemeProvider'
 import Navigation from '@/components/Navigation'
 import Footer from '@/components/Footer'
 import StructuredData from '@/components/StructuredData'
@@ -85,20 +84,18 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark">
       <head>
         <StructuredData />
       </head>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <div className="min-h-screen flex flex-col">
-            <Navigation />
-            <main className="flex-1">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
+      <body className={`${inter.className} bg-[#0a0a0a] text-white`}>
+        <div className="min-h-screen flex flex-col">
+          <Navigation />
+          <main className="flex-1">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   )

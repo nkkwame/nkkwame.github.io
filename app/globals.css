@@ -22,13 +22,13 @@
   }
   
   body {
-    @apply bg-[#0a0a0a] text-white transition-colors;
-    color: var(--text-primary);
-    background: var(--bg-primary);
+    background: #0a0a0a;
+    color: #ffffff;
+    transition: none;
   }
   
   * {
-    @apply border-[#27272a];
+    border-color: #27272a;
   }
 }
 
