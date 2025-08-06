@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Search, Filter, Calendar, Tag, Grid, List, ChevronDown } from 'lucide-react'
+import { Search, Filter, Tag, Grid, List, ChevronDown } from 'lucide-react'
 import BlogPostCard from '@/components/BlogPostCard'
 import { blogPosts, getCategories, getYears, getMonths, getAllTags } from '@/data/blogData'
 
@@ -25,7 +25,7 @@ export default function BlogArchive() {
 
   // Filter and sort posts
   const filteredPosts = useMemo(() => {
-    let filtered = blogPosts.filter(post => {
+    const filtered = blogPosts.filter(post => {
       // Search filter
       const matchesSearch = searchTerm === '' || 
         post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
