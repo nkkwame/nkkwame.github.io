@@ -3,8 +3,8 @@
 ## ✅ **Paystack Account Details**
 
 ### **Your Paystack Keys:**
-- **Public Key**: `pk_test_78e535e28e709db1d93866a211f76174dd990fde`
-- **Secret Key**: `sk_test_1885e8b05e6d0a8d0ec16e2b1656cbd60f152407`
+- **Public Key**: `pk_test_d0065cff321d6cb2db0db9d9f40958de6716c4dd`
+- **Secret Key**: `sk_test_0d1e4b015ab5d5a27d2b5fa59c39de094dc4d40f`
 - **Status**: ✅ **CONFIGURED AND READY**
 
 ## 🎯 **Configuration Status**

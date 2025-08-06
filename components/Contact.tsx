@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
 import SectionBackground from './SectionBackground'
+import CVDownloadButton from './CVDownloadButton'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -237,6 +238,10 @@ export default function Contact() {
               <button type="submit" disabled={isLoading} className="btn-primary w-full disabled:opacity-50">
                 {isLoading ? 'Sending...' : 'Send Message'}
               </button>
+              
+              <div className="mt-4 text-center">
+                <CVDownloadButton variant="secondary" size="md" className="w-full" />
+              </div>
             </form>
           </div>
         </div>

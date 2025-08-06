@@ -27,7 +27,7 @@ export default function PaystackPayment({
     reference: `kwame-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     email,
     amount: amount * 100, // Paystack expects amount in kobo (GHS * 100)
-    publicKey: 'pk_test_78e535e28e709db1d93866a211f76174dd990fde', // Your Paystack public key
+    publicKey: 'pk_test_d0065cff321d6cb2db0db9d9f40958de6716c4dd', // Your Paystack public key
     currency: 'GHS' as const,
     channels: ['card', 'mobile_money', 'ussd', 'bank_transfer'] as any,
     metadata: {

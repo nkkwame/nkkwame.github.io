@@ -2,8 +2,9 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowDown, Code, BookOpen, Video, Download, ExternalLink, Sparkles } from 'lucide-react'
+import { ArrowDown, Code, BookOpen, Video, ExternalLink, Sparkles } from 'lucide-react'
 import SectionBackground from './SectionBackground'
+import CVDownloadButton from './CVDownloadButton'
 
 export default function Hero() {
   return (
@@ -57,15 +58,7 @@ export default function Hero() {
                 <ExternalLink className="w-5 h-5" />
                 Book a Project
               </Link>
-              <a 
-                href="/resume.pdf" 
-                className="btn-secondary"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Download className="w-5 h-5" />
-                Download CV
-              </a>
+              <CVDownloadButton variant="secondary" size="md" />
             </motion.div>
 
             <motion.div

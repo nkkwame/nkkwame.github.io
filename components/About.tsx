@@ -1,4 +1,5 @@
 import SectionBackground from './SectionBackground'
+import CVDownloadButton from './CVDownloadButton'
 
 export default function About() {
   return (
@@ -45,6 +46,10 @@ export default function About() {
                     <span>Provide technical consulting and mentorship</span>
                   </li>
                 </ul>
+              </div>
+              
+              <div className="mt-8">
+                <CVDownloadButton variant="primary" size="lg" />
               </div>
             </div>
           </div>
