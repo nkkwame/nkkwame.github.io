@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
+import SectionBackground from './SectionBackground'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -96,14 +97,15 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="section-padding bg-gray-50 dark:bg-gray-800">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Let's Work Together</h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Ready to start your next project? Let's discuss how I can help bring your ideas to life.
-          </p>
-        </div>
+    <SectionBackground variant="contact">
+      <section id="contact" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">Let's Work Together</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              Ready to start your next project? Let's discuss how I can help bring your ideas to life.
+            </p>
+          </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           {/* Contact Info */}
@@ -240,5 +242,6 @@ export default function Contact() {
         </div>
       </div>
     </section>
+    </SectionBackground>
   )
 }

@@ -1,3 +1,5 @@
+import SectionBackground from './SectionBackground'
+
 export default function Portfolio() {
   const projects = [
     {
@@ -30,14 +32,15 @@ export default function Portfolio() {
   ]
 
   return (
-    <section id="portfolio" className="section-padding bg-white dark:bg-gray-900">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Featured Projects</h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            A selection of projects that showcase my development skills and problem-solving approach
-          </p>
-        </div>
+    <SectionBackground variant="portfolio">
+      <section id="portfolio" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">Featured Projects</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+              A selection of projects that showcase my development skills and problem-solving approach
+            </p>
+          </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
@@ -74,5 +77,6 @@ export default function Portfolio() {
         </div>
       </div>
     </section>
+    </SectionBackground>
   )
 }

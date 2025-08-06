@@ -1,7 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import { Code, GraduationCap, FileText } from 'lucide-react'
 import PaymentModal from './PaymentModal'
+import SectionBackground from './SectionBackground'
 
 export default function Services() {
   const [paymentModal, setPaymentModal] = useState({
@@ -19,7 +21,8 @@ export default function Services() {
       description: 'Custom web applications built with modern technologies and best practices.',
       features: ['Full-stack development', 'Responsive design', 'Performance optimization', 'SEO-friendly'],
       price: 'Starting at ₵20,000',
-      amount: 20000
+      amount: 20000,
+      icon: Code
     },
     {
       id: 2,
@@ -27,7 +30,8 @@ export default function Services() {
       description: 'Comprehensive IT training programs for individuals and organizations.',
       features: ['Curriculum development', 'One-on-one mentoring', 'Group workshops', 'Online courses'],
       price: '₵1,000/hour',
-      amount: 5000 // Example package price
+      amount: 5000, // Example package price
+      icon: GraduationCap
     },
     {
       id: 3,
@@ -35,7 +39,8 @@ export default function Services() {
       description: 'Educational content and technical documentation for your audience.',
       features: ['Technical blog posts', 'Video tutorials', 'Course development', 'Documentation'],
       price: 'Starting at ₵5,000',
-      amount: 5000
+      amount: 5000,
+      icon: FileText
     }
   ]
 
@@ -56,35 +61,44 @@ export default function Services() {
   }
 
   return (
-    <section id="services" className="section-padding bg-gray-50 dark:bg-gray-800">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">Services</h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            Professional services to help you achieve your goals in development, education, and content creation
-          </p>
-        </div>
+    <SectionBackground variant="services">
+      <section id="services" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">Services</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              Professional services to help you achieve your goals in development, education, and content creation
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
-            <div key={service.id} className="card text-center">
+            <div key={service.id} className="card text-center hover-lift">
+              {/* Animated icon */}
+              <div className="flex justify-center mb-6">
+                <div className="w-16 h-16 bg-blue-500/10 rounded-full flex items-center justify-center border border-blue-500/20 glow-blue">
+                  <service.icon className="w-8 h-8 text-blue-400 icon-float" />
+                </div>
+              </div>
+              
               <h3 className="text-2xl font-semibold mb-4 gradient-text">{service.title}</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">{service.description}</p>
+              <p className="text-gray-400 mb-6">{service.description}</p>
               <ul className="space-y-2 mb-8">
                 {service.features.map((feature, index) => (
-                  <li key={index} className="text-gray-600 dark:text-gray-400">
-                    ✓ {feature}
+                  <li key={`${service.id}-feature-${index}`} className="text-gray-400 flex items-center justify-center">
+                    <span className="w-2 h-2 bg-blue-400 rounded-full mr-3 icon-pulse"></span>
+                    {feature}
                   </li>
                 ))}
               </ul>
-              <div className="text-xl font-semibold text-primary-600 mb-6">{service.price}</div>
+              <div className="text-2xl font-bold text-blue-400 mb-6">{service.price}</div>
               <div className="space-y-3">
                 <a href="#contact" className="btn-primary w-full">
                   Get Quote
                 </a>
                 <button 
                   onClick={() => handlePaymentClick(service)}
-                  className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+                  className="w-full px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                 >
                   💳 Pay Now
                 </button>
@@ -102,7 +116,8 @@ export default function Services() {
           clientName={paymentModal.clientName}
           clientEmail={paymentModal.clientEmail}
         />
-      </div>
-    </section>
+        </div>
+      </section>
+    </SectionBackground>
   )
 }

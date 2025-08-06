@@ -1,14 +1,17 @@
+import SectionBackground from './SectionBackground'
+
 export default function About() {
   return (
-    <section id="about" className="section-padding bg-white dark:bg-gray-900">
-      <div className="container-custom">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">About Me</h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-            I'm a passionate full-stack developer, IT educator, and content creator 
-            dedicated to building innovative solutions and sharing knowledge.
-          </p>
-        </div>
+    <SectionBackground variant="about">
+      <section id="about" className="section-padding">
+        <div className="container-custom">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold mb-6 gradient-text">About Me</h2>
+            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+              I'm a passionate full-stack developer, IT educator, and content creator 
+              dedicated to building innovative solutions and sharing knowledge.
+            </p>
+          </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
@@ -69,5 +72,6 @@ export default function About() {
         </div>
       </div>
     </section>
+    </SectionBackground>
   )
 }

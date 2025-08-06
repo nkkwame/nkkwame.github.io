@@ -107,20 +107,22 @@ Please follow up with the client to begin the project.
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-xl max-w-md w-full p-6 relative">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+      <div className="bg-[#1a1a1a] border border-[#27272a] rounded-xl max-w-md w-full p-6 relative shadow-2xl">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-xl"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white text-xl transition-colors"
         >
           ×
         </button>
 
         <div className="text-center mb-6">
-          <CreditCard className="w-12 h-12 text-primary-600 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold mb-2">Make Payment</h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            Secure payment for: <strong>{service}</strong>
+          <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto mb-3 border border-blue-500/20 glow-blue">
+            <CreditCard className="w-6 h-6 text-blue-400 icon-pulse" />
+          </div>
+          <h3 className="text-2xl font-bold mb-2 text-white">Make Payment</h3>
+          <p className="text-gray-400">
+            Secure payment for: <strong className="text-blue-400">{service}</strong>
           </p>
         </div>
 
@@ -128,37 +130,37 @@ Please follow up with the client to begin the project.
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => setPaymentType('half')}
-              className={`p-4 border-2 rounded-lg text-center transition-colors ${
+              className={`p-4 border-2 rounded-lg text-center transition-all duration-300 hover-lift ${
                 paymentType === 'half'
-                  ? 'border-primary-600 bg-primary-50 dark:bg-primary-900'
-                  : 'border-gray-200 dark:border-gray-700'
+                  ? 'border-blue-500 bg-blue-500/10 text-blue-400'
+                  : 'border-[#27272a] bg-[#0a0a0a] text-gray-400 hover:border-blue-500/30'
               }`}
             >
-              <Clock className="w-6 h-6 mx-auto mb-2" />
+              <Clock className="w-6 h-6 mx-auto mb-2 icon-float" />
               <div className="font-semibold">Deposit (50%)</div>
-              <div className="text-xl font-bold text-primary-600">₵{amount / 2}</div>
+              <div className="text-xl font-bold text-blue-400">₵{amount / 2}</div>
               <div className="text-sm text-gray-500">Start project now</div>
             </button>
 
             <button
               onClick={() => setPaymentType('full')}
-              className={`p-4 border-2 rounded-lg text-center transition-colors ${
+              className={`p-4 border-2 rounded-lg text-center transition-all duration-300 hover-lift ${
                 paymentType === 'full'
-                  ? 'border-primary-600 bg-primary-50 dark:bg-primary-900'
-                  : 'border-gray-200 dark:border-gray-700'
+                  ? 'border-blue-500 bg-blue-500/10 text-blue-400'
+                  : 'border-[#27272a] bg-[#0a0a0a] text-gray-400 hover:border-blue-500/30'
               }`}
             >
-              <Shield className="w-6 h-6 mx-auto mb-2" />
+              <Shield className="w-6 h-6 mx-auto mb-2 icon-float" />
               <div className="font-semibold">Full Payment</div>
-              <div className="text-xl font-bold text-primary-600">₵{amount}</div>
+              <div className="text-xl font-bold text-blue-400">₵{amount}</div>
               <div className="text-sm text-gray-500">Complete payment</div>
             </button>
           </div>
 
-          <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
+          <div className="bg-[#0a0a0a] border border-[#27272a] p-4 rounded-lg">
             <div className="flex justify-between items-center">
-              <span className="font-medium">Amount to pay:</span>
-              <span className="text-2xl font-bold text-primary-600">₵{finalAmount}</span>
+              <span className="font-medium text-white">Amount to pay:</span>
+              <span className="text-2xl font-bold text-blue-400">₵{finalAmount}</span>
             </div>
             <div className="text-sm text-gray-500 mt-1">
               {paymentType === 'half' ? 'Remaining ₵' + (amount / 2) + ' due on completion' : 'Full payment - no balance remaining'}
@@ -170,14 +172,21 @@ Please follow up with the client to begin the project.
           <button
             onClick={handlePayment}
             disabled={isProcessing}
-            className="btn-primary w-full disabled:opacity-50"
+            className="btn-primary w-full disabled:opacity-50 glow-blue"
           >
-            {isProcessing ? 'Processing...' : `Pay ₵${finalAmount} Now`}
+            {isProcessing ? (
+              <span className="flex items-center justify-center gap-2">
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                Processing...
+              </span>
+            ) : (
+              `Pay ₵${finalAmount} Now`
+            )}
           </button>
 
           <div className="text-center text-sm text-gray-500">
             <div className="flex items-center justify-center space-x-2">
-              <Shield className="w-4 h-4" />
+              <Shield className="w-4 h-4 icon-pulse" />
               <span>Secured by Flutterwave • Ghana Cedis (₵)</span>
             </div>
             <div className="mt-1">Supports: Mobile Money • Cards • Bank Transfer</div>
