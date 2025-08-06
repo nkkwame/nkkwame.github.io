@@ -11,8 +11,8 @@ export default function StructuredData() {
     "image": "https://nkkwame.github.io/profile-image.jpg",
     "sameAs": [
       "https://github.com/nkkwame",
-      "https://www.linkedin.com/in/kwame-nkrumah", // Add your actual LinkedIn
-      "https://twitter.com/your_handle" // Add your actual Twitter
+      "https://www.linkedin.com/in/nkkwame", // Add your actual LinkedIn
+      "https:/x.com/uccnewshub" // Add your actual Twitter
     ],
     "jobTitle": [
       "Full-Stack Developer",
