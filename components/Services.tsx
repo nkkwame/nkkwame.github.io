@@ -20,8 +20,8 @@ export default function Services() {
       title: 'Web Development',
       description: 'Custom web applications built with modern technologies and best practices.',
       features: ['Full-stack development', 'Responsive design', 'Performance optimization', 'SEO-friendly'],
-      price: 'Starting at ₵20,000',
-      amount: 20000,
+      price: 'Starting at ₵2,000',
+      amount: 2000,
       icon: Code
     },
     {
@@ -29,8 +29,8 @@ export default function Services() {
       title: 'IT Training & Education',
       description: 'Comprehensive IT training programs for individuals and organizations.',
       features: ['Curriculum development', 'One-on-one mentoring', 'Group workshops', 'Online courses'],
-      price: '₵1,000/hour',
-      amount: 5000, // Example package price
+      price: '₵2,500 going',
+      amount: 2500, // Example package price
       icon: GraduationCap
     },
     {
@@ -38,8 +38,8 @@ export default function Services() {
       title: 'Content Creation',
       description: 'Educational content and technical documentation for your audience.',
       features: ['Technical blog posts', 'Video tutorials', 'Course development', 'Documentation'],
-      price: 'Starting at ₵5,000',
-      amount: 5000,
+      price: 'Starting at ₵1,000',
+      amount: 1000,
       icon: FileText
     }
   ]
