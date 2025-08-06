@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Calendar, Play } from 'lucide-react'
 import YouTubeEmbed from './YouTubeEmbed'
 
@@ -86,20 +87,20 @@ export default function BlogPostCard({ post, onClick }: BlogPostCardProps) {
         </p>
 
         {/* Read More / Watch Video Button */}
-        <button 
-          onClick={onClick}
+        <Link 
+          href={`/blog/${post.id}`}
           className="inline-flex items-center space-x-2 text-primary-600 dark:text-primary-400 font-medium hover:underline cursor-pointer transition-colors"
         >
           {post.youtubeVideoId ? (
             <>
               <Play className="w-4 h-4" />
-              <span>Watch Video</span>
+              <span>Read Article & Watch Video</span>
             </>
           ) : (
-            <span>Read More</span>
+            <span>Read Full Article</span>
           )}
           <span>→</span>
-        </button>
+        </Link>
       </div>
     </article>
   )

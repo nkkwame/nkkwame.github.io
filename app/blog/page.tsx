@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { Search, Filter, Calendar, Tag, Grid, List, ChevronDown } from 'lucide-react'
 import BlogPostCard from '@/components/BlogPostCard'
-import { blogPosts, getCategories, getYears, getMonths, getAllTags, type BlogPost } from '@/data/blogData'
+import { blogPosts, getCategories, getYears, getMonths, getAllTags } from '@/data/blogData'
 
 type SortOption = 'newest' | 'oldest' | 'title' | 'category'
 type ViewMode = 'grid' | 'list'
@@ -66,14 +66,6 @@ export default function BlogArchive() {
 
     return filtered
   }, [searchTerm, selectedCategory, selectedYear, selectedMonth, selectedTag, sortBy])
-
-  const handlePostClick = (post: BlogPost) => {
-    if (post.youtubeVideoId) {
-      alert(`🎥 ${post.title}\n\n📺 YouTube Video Available!\n\nThis post includes a video tutorial. Click the play button to watch the video directly on your site, or click "Watch on YouTube" to view it on YouTube.\n\n📝 Blog content coming soon!`)
-    } else {
-      alert(`📖 ${post.title}\n\nFull blog post pages coming soon! For now, you can see the preview above.`)
-    }
-  }
 
   const clearAllFilters = () => {
     setSearchTerm('')
@@ -291,7 +283,6 @@ export default function BlogArchive() {
               <BlogPostCard
                 key={post.id}
                 post={post}
-                onClick={() => handlePostClick(post)}
               />
             ))}
           </div>

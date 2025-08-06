@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { Menu, X, Code, ChevronDown } from 'lucide-react'
 
@@ -13,6 +13,21 @@ interface NavigationItem {
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [blogDropdownOpen, setBlogDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setBlogDropdownOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
 
   const navigation: NavigationItem[] = [
     { name: 'Home', href: '/' },
@@ -49,12 +64,14 @@ export default function Navigation() {
                 <div 
                   key={item.name}
                   className="relative"
-                  onMouseEnter={() => setBlogDropdownOpen(true)}
-                  onMouseLeave={() => setBlogDropdownOpen(false)}
+                  ref={dropdownRef}
                 >
-                  <button className="flex items-center space-x-1 text-gray-300 hover:text-blue-400 transition-colors duration-200">
+                  <button 
+                    onClick={() => setBlogDropdownOpen(!blogDropdownOpen)}
+                    className="flex items-center space-x-1 text-gray-300 hover:text-blue-400 transition-colors duration-200"
+                  >
                     <span>{item.name}</span>
-                    <ChevronDown className="w-4 h-4" />
+                    <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${blogDropdownOpen ? 'rotate-180' : ''}`} />
                   </button>
                   
                   {/* Dropdown Menu */}
@@ -65,6 +82,7 @@ export default function Navigation() {
                           key={dropdownItem.name}
                           href={dropdownItem.href}
                           className="block px-4 py-3 text-gray-300 hover:text-blue-400 hover:bg-[#27272a] transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                          onClick={() => setBlogDropdownOpen(false)}
                         >
                           {dropdownItem.name}
                         </Link>

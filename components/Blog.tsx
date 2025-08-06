@@ -8,16 +8,6 @@ export default function Blog() {
   // Show only the latest 6 posts on the homepage
   const latestPosts = blogPosts.slice(0, 6)
 
-  const handlePostClick = (post: typeof blogPosts[0]) => {
-    if (post.youtubeVideoId) {
-      // If it has a YouTube video, show an alert with video info
-      alert(`🎥 ${post.title}\n\n📺 YouTube Video Available!\n\nThis post includes a video tutorial. Click the play button above to watch the video directly on your site, or click "Watch on YouTube" to view it on YouTube.\n\n📝 Blog content coming soon!`)
-    } else {
-      // Regular blog post
-      alert(`📖 ${post.title}\n\nFull blog post pages coming soon! For now, you can see the preview above.`)
-    }
-  }
-
   return (
     <section id="blog" className="section-padding bg-white dark:bg-gray-900">
       <div className="container-custom">
@@ -33,7 +23,6 @@ export default function Blog() {
             <BlogPostCard
               key={post.id}
               post={post}
-              onClick={() => handlePostClick(post)}
             />
           ))}
         </div>
