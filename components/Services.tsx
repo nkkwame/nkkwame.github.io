@@ -93,7 +93,7 @@ export default function Services() {
               </ul>
               <div className="text-2xl font-bold text-blue-400 mb-6">{service.price}</div>
               <div className="space-y-3">
-                <a href="#contact" className="btn-primary w-full">
+                <a href="/#contact" className="btn-primary w-full">
                   Get Quote
                 </a>
                 <button 

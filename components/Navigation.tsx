@@ -31,18 +31,18 @@ export default function Navigation() {
 
   const navigation: NavigationItem[] = [
     { name: 'Home', href: '/' },
-    { name: 'About', href: '#about' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Services', href: '#services' },
+    { name: 'About', href: '/#about' },
+    { name: 'Portfolio', href: '/#portfolio' },
+    { name: 'Services', href: '/#services' },
     { 
       name: 'Blog', 
-      href: '#blog',
+      href: '/#blog',
       dropdown: [
-        { name: 'Latest Posts', href: '#blog' },
+        { name: 'Latest Posts', href: '/#blog' },
         { name: 'All Posts', href: '/blog' },
       ]
     },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Contact', href: '/#contact' },
   ]
 
   return (
@@ -102,7 +102,7 @@ export default function Navigation() {
             ))}
             
             {/* CTA Button */}
-            <Link href="#contact" className="btn-primary">
+            <Link href="/#contact" className="btn-primary">
               Book a Project
             </Link>
           </div>
@@ -149,7 +149,7 @@ export default function Navigation() {
                 )
               ))}
               <Link
-                href="#contact"
+                href="/#contact"
                 className="btn-primary w-fit mt-4"
                 onClick={() => setIsOpen(false)}
               >

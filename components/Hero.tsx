@@ -49,11 +49,11 @@ export default function Hero() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="flex flex-wrap justify-center gap-4 mb-12"
             >
-              <Link href="#portfolio" className="btn-primary">
+              <Link href="/#portfolio" className="btn-primary">
                 <Code className="w-5 h-5" />
                 View My Work
               </Link>
-              <Link href="#contact" className="btn-secondary">
+              <Link href="/#contact" className="btn-secondary">
                 <ExternalLink className="w-5 h-5" />
                 Book a Project
               </Link>
@@ -94,7 +94,7 @@ export default function Hero() {
               transition={{ duration: 1, delay: 0.6 }}
               className="text-center"
             >
-              <Link href="#about" className="inline-flex items-center text-gray-400 hover:text-blue-400 transition-colors group">
+              <Link href="/#about" className="inline-flex items-center text-gray-400 hover:text-blue-400 transition-colors group">
                 <span className="mr-2">Learn more about me</span>
                 <ArrowDown className="w-5 h-5 group-hover:translate-y-1 transition-transform icon-float" />
               </Link>

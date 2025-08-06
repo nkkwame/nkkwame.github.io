@@ -9,11 +9,11 @@ export default function Navigation() {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'About', href: '#about' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Services', href: '#services' },
-    { name: 'Blog', href: '#blog' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'About', href: '/#about' },
+    { name: 'Portfolio', href: '/#portfolio' },
+    { name: 'Services', href: '/#services' },
+    { name: 'Blog', href: '/#blog' },
+    { name: 'Contact', href: '/#contact' },
   ]
 
   return (
@@ -41,7 +41,7 @@ export default function Navigation() {
             ))}
             
             {/* CTA Button */}
-            <Link href="#contact" className="btn-primary">
+            <Link href="/#contact" className="btn-primary">
               Book a Project
             </Link>
           </div>
@@ -72,7 +72,7 @@ export default function Navigation() {
                 </Link>
               ))}
               <Link
-                href="#contact"
+                href="/#contact"
                 className="btn-primary w-fit mt-4"
                 onClick={() => setIsOpen(false)}
               >
