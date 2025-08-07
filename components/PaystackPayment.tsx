@@ -29,7 +29,7 @@ export default function PaystackPayment({
     amount: amount * 100, // Paystack expects amount in kobo (GHS * 100)
     publicKey: 'pk_test_d0065cff321d6cb2db0db9d9f40958de6716c4dd', // Your Paystack public key
     currency: 'GHS' as const,
-    channels: ['card', 'mobile_money', 'ussd', 'bank_transfer'] as any,
+    channels: ['card', 'mobile_money', 'ussd', 'bank_transfer', 'apple_pay'] as any,
     metadata: {
       service,
       client_name: clientName,

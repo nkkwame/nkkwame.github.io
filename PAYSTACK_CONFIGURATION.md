@@ -12,7 +12,7 @@
 ### ✅ **Frontend Integration (Complete)**
 - **File**: `components/PaystackPayment.tsx`
 - **Public Key**: ✅ Configured with your actual key
-- **Payment Methods**: Card, Mobile Money, USSD, Bank Transfer
+- **Payment Methods**: Card, Mobile Money, USSD, Bank Transfer, Apple Pay
 - **Currency**: Ghana Cedis (GHS)
 - **Test Mode**: Active (safe for testing)
 
@@ -139,6 +139,30 @@ Confirmation → Email Notification
 - **Automated payment tracking**
 - **International client support**
 
+## 🍎 **Apple Pay Integration**
+
+### **Apple Pay Setup (Complete):**
+
+- ✅ **Domain Verification**: `public/.well-known/apple-developer-merchantid-domain-association`
+- ✅ **Payment Channel**: Added to Paystack configuration
+- ✅ **Browser Support**: Safari on iOS/macOS devices
+- ✅ **Security**: Uses Touch ID/Face ID for authentication
+
+### **Apple Pay Device Requirements:**
+
+- **Device**: iPhone/iPad with Touch ID/Face ID or Mac with Touch ID
+- **Browser**: Safari (iOS 10+ or macOS 10.12+)
+- **Setup**: Must have Apple Pay configured in device Settings
+- **Cards**: Any card added to Apple Wallet
+
+### **Apple Pay Payment Flow:**
+
+1. Client clicks "Pay Now" on supported device
+2. Apple Pay option appears if device/browser compatible
+3. Client authenticates with Touch ID/Face ID
+4. Payment processed securely through Paystack
+5. Instant confirmation and receipt
+
 ## ⚡ **Current Status: READY TO ACCEPT PAYMENTS**
 
 Your Paystack integration is **fully configured and ready**! You can:
@@ -152,4 +176,4 @@ Your Paystack integration is **fully configured and ready**! You can:
 
 ---
 
-**Need help?** Contact Paystack support or check their excellent documentation at https://paystack.com/docs
+**Need help?** Contact Paystack support or check their excellent documentation at [https://paystack.com/docs](https://paystack.com/docs)
