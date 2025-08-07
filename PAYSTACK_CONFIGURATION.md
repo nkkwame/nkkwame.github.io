@@ -3,9 +3,9 @@
 ## ✅ **Paystack Account Details**
 
 ### **Your Paystack Keys:**
-- **Public Key**: `pk_test_d0065cff321d6cb2db0db9d9f40958de6716c4dd`
-- **Secret Key**: `sk_test_0d1e4b015ab5d5a27d2b5fa59c39de094dc4d40f`
-- **Status**: ✅ **CONFIGURED AND READY**
+- **Public Key (LIVE)**: `pk_live_895964333cbb0a253888698054d68ff35c6cc0f9`
+- **Secret Key**: `sk_live_your_secret_key_here` (Keep this secure!)
+- **Status**: 🚀 **LIVE MODE - ACCEPTING REAL PAYMENTS**
 
 ## 🎯 **Configuration Status**
 
@@ -14,7 +14,7 @@
 - **Public Key**: ✅ Configured with your actual key
 - **Payment Methods**: Card, Mobile Money, USSD, Bank Transfer, Apple Pay
 - **Currency**: Ghana Cedis (GHS)
-- **Test Mode**: Active (safe for testing)
+- **Live Mode**: 🚀 ACTIVE - Accepting real payments!
 
 ### 🔧 **Current Payment Flow**
 1. **Client clicks** "💳 Pay Now" on any service
@@ -28,36 +28,28 @@
 - **IT Training Package**: ₵5,000 (Deposit: ₵2,500)
 - **Content Creation**: ₵5,000 (Deposit: ₵2,500)
 
-## 🚀 **Ready for Testing**
+## 🚀 **LIVE PAYMENT SYSTEM**
 
-### **Test Cards (Paystack Sandbox):**
+### **⚠️ Important: You're Now in LIVE MODE**
 ```
-✅ Successful Payment:
-Card: 4084084084084081
-CVV: 408
-Expiry: Any future date
-PIN: 0000
-
-✅ Mobile Money Test:
-Use any Ghana mobile number
-Follow Paystack's test prompts
-
-✅ Bank Transfer Test:
-Select any bank from the list
-Follow test instructions
+🚨 REAL MONEY TRANSACTIONS
+- All payments will charge actual money
+- Use real cards and payment methods
+- Test with small amounts first
+- Monitor your Paystack dashboard
 ```
 
-### **Test Your Payment System:**
-1. **Visit**: https://nkkwame.github.io
+### **Test Your Live Payment System:**
+1. **Visit**: [https://nkkwame.github.io](https://nkkwame.github.io)
 2. **Go to Services** section
 3. **Click "💳 Pay Now"** on any service
-4. **Use test cards** above
-5. **Verify payment flow**
+4. **Use real payment methods** (small amounts for testing)
+5. **Check Paystack dashboard** for transaction confirmation
 
 ## 🔐 **Security Notes**
 
-### **Test vs Live Mode:**
-- ✅ **Currently in TEST mode** (safe for testing)
+### **Live vs Test Mode:**
+- 🚀 **Currently in LIVE mode** (processing real payments)
 - 🔄 **To go live**: Replace `pk_test_` with `pk_live_` key
 - 🔐 **Secret key**: Never expose in frontend code
 - 💾 **Secret key usage**: Backend/webhook verification only
