@@ -90,17 +90,17 @@ export default function BlogAdmin({}: BlogAdminProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
-    const postData: Partial<BlogPost> = {
-      title: formData.title || '',
-      excerpt: formData.excerpt || '',
+    const postData: Omit<BlogPost, 'id'> = {
+      title: formData.title ?? '',
+      excerpt: formData.excerpt ?? '',
       date: editingPost ? editingPost.date : new Date().toISOString().split('T')[0],
-      category: formData.category || 'Development',
-      image: formData.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-      youtubeVideoId: formData.youtubeVideoId || '',
-      youtubeTitle: formData.youtubeTitle || '',
-      tags: formData.tags || [],
-      readTime: formData.readTime || 5,
-      author: formData.author || 'Kwame Nkrumah'
+      category: formData.category ?? 'Development',
+      image: formData.image ?? 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
+      youtubeVideoId: formData.youtubeVideoId ?? '',
+      youtubeTitle: formData.youtubeTitle ?? '',
+      tags: formData.tags ?? [],
+      readTime: formData.readTime ?? 5,
+      author: formData.author ?? 'Kwame Nkrumah'
     }
     try {
       if (editingPost) {
