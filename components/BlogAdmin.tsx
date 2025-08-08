@@ -21,6 +21,7 @@ import {
   Filter
 } from 'lucide-react'
 import { BlogPost } from '@/data/blogData'
+import { fetchBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost } from '@/lib/blogApi'
 
 // Mock blog posts data (in real app, this would come from your backend/CMS)
 const categories = ['Development', 'Education', 'Content Creation']
@@ -40,6 +41,7 @@ export default function BlogAdmin({}: BlogAdminProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [filterCategory, setFilterCategory] = useState('all')
   const [showFilters, setShowFilters] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   // Form state
   const [formData, setFormData] = useState<Partial<BlogPost>>({
@@ -54,37 +56,13 @@ export default function BlogAdmin({}: BlogAdminProps) {
     author: 'Kwame Nkrumah'
   })
 
-  // Load blog posts from localStorage on component mount
+  // Load blog posts from Supabase on component mount
   useEffect(() => {
-    const savedPosts = localStorage.getItem('blogPosts')
-    if (savedPosts) {
-      setBlogPosts(JSON.parse(savedPosts))
-    } else {
-      // Initialize with sample data
-      const samplePosts: BlogPost[] = [
-        {
-          id: 1,
-          title: 'Sample Blog Post',
-          excerpt: 'This is a sample blog post created from the admin dashboard.',
-          date: new Date().toISOString().split('T')[0],
-          category: 'Development',
-          image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-          tags: ['Next.js', 'React'],
-          readTime: 5,
-          author: 'Kwame Nkrumah'
-        }
-      ]
-      setBlogPosts(samplePosts)
-      localStorage.setItem('blogPosts', JSON.stringify(samplePosts))
-    }
+    setLoading(true)
+    fetchBlogPosts()
+      .then((data) => setBlogPosts(data || []))
+      .finally(() => setLoading(false))
   }, [])
-
-  // Save posts to localStorage whenever blogPosts changes
-  useEffect(() => {
-    if (blogPosts.length > 0) {
-      localStorage.setItem('blogPosts', JSON.stringify(blogPosts))
-    }
-  }, [blogPosts])
 
   // Filter posts based on search and category
   const filteredPosts = blogPosts.filter(post => {
@@ -109,30 +87,34 @@ export default function BlogAdmin({}: BlogAdminProps) {
     categories: Array.from(new Set(blogPosts.map(post => post.category))).length
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    const postData: BlogPost = {
-      id: editingPost ? editingPost.id : Date.now(),
+    setLoading(true)
+    const postData: Partial<BlogPost> = {
       title: formData.title || '',
       excerpt: formData.excerpt || '',
       date: editingPost ? editingPost.date : new Date().toISOString().split('T')[0],
       category: formData.category || 'Development',
       image: formData.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-      youtubeVideoId: formData.youtubeVideoId || '',
-      youtubeTitle: formData.youtubeTitle || '',
+      youtube_video_id: formData.youtubeVideoId || '',
+      youtube_title: formData.youtubeTitle || '',
       tags: formData.tags || [],
-      readTime: formData.readTime || 5,
+      read_time: formData.readTime || 5,
       author: formData.author || 'Kwame Nkrumah'
     }
-
-    if (editingPost) {
-      setBlogPosts(prev => prev.map(post => post.id === editingPost.id ? postData : post))
-    } else {
-      setBlogPosts(prev => [postData, ...prev])
+    try {
+      if (editingPost) {
+        const updated = await updateBlogPost(editingPost.id, postData)
+        setBlogPosts(prev => prev.map(post => post.id === editingPost.id ? updated[0] : post))
+      } else {
+        const created = await createBlogPost(postData)
+        setBlogPosts(prev => [created[0], ...prev])
+      }
+      resetForm()
+    } catch (err) {
+      alert('Error saving post: ' + (err as Error).message)
     }
-
-    resetForm()
+    setLoading(false)
   }
 
   const resetForm = () => {
@@ -157,9 +139,16 @@ export default function BlogAdmin({}: BlogAdminProps) {
     setIsCreating(true)
   }
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this blog post?')) {
-      setBlogPosts(prev => prev.filter(post => post.id !== id))
+      setLoading(true)
+      try {
+        await deleteBlogPost(id)
+        setBlogPosts(prev => prev.filter(post => post.id !== id))
+      } catch (err) {
+        alert('Error deleting post: ' + (err as Error).message)
+      }
+      setLoading(false)
     }
   }
 
@@ -178,6 +167,7 @@ export default function BlogAdmin({}: BlogAdminProps) {
     }
   }
 
+  // Export/import can be implemented with Supabase if needed
   const exportData = () => {
     const dataStr = JSON.stringify(blogPosts, null, 2)
     const dataBlob = new Blob([dataStr], { type: 'application/json' })
@@ -188,20 +178,9 @@ export default function BlogAdmin({}: BlogAdminProps) {
     link.click()
   }
 
+  // Import can be implemented to batch insert into Supabase if needed
   const importData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const importedPosts = JSON.parse(e.target?.result as string)
-          setBlogPosts(importedPosts)
-        } catch (error) {
-          alert('Error importing data. Please check the file format.')
-        }
-      }
-      reader.readAsText(file)
-    }
+    alert('Import is not yet implemented for Supabase version.')
   }
 
   return (
@@ -528,7 +507,9 @@ export default function BlogAdmin({}: BlogAdminProps) {
           </h3>
         </div>
 
-        {filteredPosts.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-12">Loading...</div>
+        ) : filteredPosts.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
