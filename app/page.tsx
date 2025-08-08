@@ -4,6 +4,7 @@ import Skills from '@/components/Skills'
 import Portfolio from '@/components/Portfolio'
 import Blog from '@/components/Blog'
 import Services from '@/components/Services'
+import Newsletter from '@/components/Newsletter'
 import Contact from '@/components/Contact'
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
       <Portfolio />
       <Services />
       <Blog />
+      <Newsletter />
       <Contact />
     </>
   )
