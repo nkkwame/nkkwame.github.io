@@ -484,7 +484,7 @@ export default function BlogAdmin() {
                   ))}
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Selected: {(formData.tags || []).join(', ') || 'None'}
+                  Selected: {Array.isArray(formData.tags) && formData.tags.length > 0 ? formData.tags.join(', ') : 'None'}
                 </p>
               </div>
 
