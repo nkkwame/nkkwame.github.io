@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSupabaseAuth } from '@/lib/useSupabaseAuth'
 import { 
   Plus, 
   Edit, 
@@ -8,19 +9,16 @@ import {
   Eye, 
   Save, 
   X, 
-  Calendar, 
   Tag, 
-  Clock, 
   Download,
   Upload,
   BookOpen,
   TrendingUp,
-  Users,
   FileText,
   Search,
   Filter
 } from 'lucide-react'
-import { BlogPost } from '@/data/blogData'
+import { BlogPost, fetchBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost } from '@/lib/blogApi'
 
 // Mock blog posts data (in real app, this would come from your backend/CMS)
 const categories = ['Development', 'Education', 'Content Creation']
@@ -33,13 +31,16 @@ const availableTags = [
 
 interface BlogAdminProps {}
 
-export default function BlogAdmin({}: BlogAdminProps) {
+export default function BlogAdmin() {
+  const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'draft'>('all');
+  const { user, loading: authLoading } = useSupabaseAuth();
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [isCreating, setIsCreating] = useState(false)
   const [editingPost, setEditingPost] = useState<BlogPost | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [filterCategory, setFilterCategory] = useState('all')
   const [showFilters, setShowFilters] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   // Form state
   const [formData, setFormData] = useState<Partial<BlogPost>>({
@@ -51,56 +52,45 @@ export default function BlogAdmin({}: BlogAdminProps) {
     youtubeTitle: '',
     tags: [],
     readTime: 5,
-    author: 'Kwame Nkrumah'
+    author: 'Kwame Nkrumah',
+    status: 'draft',
   })
 
-  // Load blog posts from localStorage on component mount
+  // Load blog posts from Supabase on component mount
   useEffect(() => {
-    const savedPosts = localStorage.getItem('blogPosts')
-    if (savedPosts) {
-      setBlogPosts(JSON.parse(savedPosts))
-    } else {
-      // Initialize with sample data
-      const samplePosts: BlogPost[] = [
-        {
-          id: 1,
-          title: 'Sample Blog Post',
-          excerpt: 'This is a sample blog post created from the admin dashboard.',
-          date: new Date().toISOString().split('T')[0],
-          category: 'Development',
-          image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-          tags: ['Next.js', 'React'],
-          readTime: 5,
-          author: 'Kwame Nkrumah'
-        }
-      ]
-      setBlogPosts(samplePosts)
-      localStorage.setItem('blogPosts', JSON.stringify(samplePosts))
-    }
-  }, [])
-
-  // Save posts to localStorage whenever blogPosts changes
-  useEffect(() => {
-    if (blogPosts.length > 0) {
-      localStorage.setItem('blogPosts', JSON.stringify(blogPosts))
-    }
-  }, [blogPosts])
+    if (!user) return;
+    setLoading(true)
+    fetchBlogPosts()
+      .then((data) => setBlogPosts(data || []))
+      .finally(() => setLoading(false))
+  }, [user])
+  if (authLoading) {
+    return <div className="flex justify-center items-center min-h-screen">Checking authentication...</div>;
+  }
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h2 className="text-2xl font-bold mb-4">Admin Login Required</h2>
+        <a href="/admin/login" className="px-4 py-2 bg-blue-600 text-white rounded-lg">Go to Admin Login</a>
+      </div>
+    );
+  }
 
   // Filter posts based on search and category
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = searchTerm === '' || 
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-    
-    const matchesCategory = filterCategory === 'all' || post.category === filterCategory
-    
-    return matchesSearch && matchesCategory
-  })
+      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === 'all' || post.category === filterCategory;
+    const matchesStatus = filterStatus === 'all' || post.status === filterStatus;
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
 
   // Statistics
   const stats = {
     total: blogPosts.length,
-    published: blogPosts.length, // In real app, you'd have draft/published status
+    published: blogPosts.filter(post => post.status === 'published').length,
+    drafts: blogPosts.filter(post => post.status === 'draft').length,
     thisMonth: blogPosts.filter(post => {
       const postDate = new Date(post.date)
       const now = new Date()
@@ -109,31 +99,46 @@ export default function BlogAdmin({}: BlogAdminProps) {
     categories: Array.from(new Set(blogPosts.map(post => post.category))).length
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    
-    const postData: BlogPost = {
-      id: editingPost ? editingPost.id : Date.now(),
-      title: formData.title || '',
-      excerpt: formData.excerpt || '',
+  // Save as Draft or Publish
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const postData: Omit<BlogPost, 'id'> = {
+      title: formData.title ?? '',
+      excerpt: formData.excerpt ?? '',
       date: editingPost ? editingPost.date : new Date().toISOString().split('T')[0],
-      category: formData.category || 'Development',
-      image: formData.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-      youtubeVideoId: formData.youtubeVideoId || '',
-      youtubeTitle: formData.youtubeTitle || '',
-      tags: formData.tags || [],
-      readTime: formData.readTime || 5,
-      author: formData.author || 'Kwame Nkrumah'
+      category: formData.category ?? 'Development',
+      image: formData.image ?? 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
+      youtubeVideoId: formData.youtubeVideoId ?? '',
+      youtubeTitle: formData.youtubeTitle ?? '',
+      tags: formData.tags ?? [],
+      readTime: formData.readTime ?? 5,
+      author: formData.author ?? 'Kwame Nkrumah',
+      status: formData.status ?? 'draft',
+    };
+    try {
+      if (editingPost) {
+        const updated = await updateBlogPost(editingPost.id, postData);
+        setBlogPosts(prev => prev.map(post => post.id === editingPost.id ? updated[0] : post));
+      } else {
+        const created = await createBlogPost(postData);
+        setBlogPosts(prev => [created[0], ...prev]);
+      }
+      resetForm();
+    } catch (err) {
+      alert('Error saving post: ' + (err as Error).message);
     }
+    setLoading(false);
+  };
 
-    if (editingPost) {
-      setBlogPosts(prev => prev.map(post => post.id === editingPost.id ? postData : post))
-    } else {
-      setBlogPosts(prev => [postData, ...prev])
-    }
-
-    resetForm()
-  }
+  // Save as Draft
+  const handleSaveDraft = () => {
+    setFormData(prev => ({ ...prev, status: 'draft' }));
+  };
+  // Publish
+  const handlePublish = () => {
+    setFormData(prev => ({ ...prev, status: 'published' }));
+  };
 
   const resetForm = () => {
     setFormData({
@@ -145,21 +150,29 @@ export default function BlogAdmin({}: BlogAdminProps) {
       youtubeTitle: '',
       tags: [],
       readTime: 5,
-      author: 'Kwame Nkrumah'
-    })
-    setIsCreating(false)
-    setEditingPost(null)
-  }
+      author: 'Kwame Nkrumah',
+      status: 'draft',
+    });
+    setIsCreating(false);
+    setEditingPost(null);
+  };
 
   const handleEdit = (post: BlogPost) => {
-    setEditingPost(post)
-    setFormData(post)
-    setIsCreating(true)
-  }
+    setEditingPost(post);
+    setFormData(post);
+    setIsCreating(true);
+  };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this blog post?')) {
-      setBlogPosts(prev => prev.filter(post => post.id !== id))
+      setLoading(true)
+      try {
+        await deleteBlogPost(id)
+        setBlogPosts(prev => prev.filter(post => post.id !== id))
+      } catch (err) {
+        alert('Error deleting post: ' + (err as Error).message)
+      }
+      setLoading(false)
     }
   }
 
@@ -178,6 +191,7 @@ export default function BlogAdmin({}: BlogAdminProps) {
     }
   }
 
+  // Export/import can be implemented with Supabase if needed
   const exportData = () => {
     const dataStr = JSON.stringify(blogPosts, null, 2)
     const dataBlob = new Blob([dataStr], { type: 'application/json' })
@@ -188,20 +202,9 @@ export default function BlogAdmin({}: BlogAdminProps) {
     link.click()
   }
 
+  // Import can be implemented to batch insert into Supabase if needed
   const importData = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        try {
-          const importedPosts = JSON.parse(e.target?.result as string)
-          setBlogPosts(importedPosts)
-        } catch (error) {
-          alert('Error importing data. Please check the file format.')
-        }
-      }
-      reader.readAsText(file)
-    }
+    alert('Import is not yet implemented for Supabase version.')
   }
 
   return (
@@ -481,7 +484,7 @@ export default function BlogAdmin({}: BlogAdminProps) {
                   ))}
                 </div>
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Selected: {(formData.tags || []).join(', ') || 'None'}
+                  Selected: {Array.isArray(formData.tags) && formData.tags.length > 0 ? formData.tags.join(', ') : 'None'}
                 </p>
               </div>
 
@@ -508,6 +511,22 @@ export default function BlogAdmin({}: BlogAdminProps) {
                   Cancel
                 </button>
                 <button
+                  type="button"
+                  onClick={() => { handleSaveDraft(); }}
+                  className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save as Draft</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { handlePublish(); }}
+                  className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Publish</span>
+                </button>
+                <button
                   type="submit"
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
@@ -528,7 +547,9 @@ export default function BlogAdmin({}: BlogAdminProps) {
           </h3>
         </div>
 
-        {filteredPosts.length > 0 ? (
+        {loading ? (
+          <div className="text-center py-12">Loading...</div>
+        ) : filteredPosts.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-gray-700">
@@ -567,7 +588,7 @@ export default function BlogAdmin({}: BlogAdminProps) {
                           <div className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">
                             {post.excerpt}
                           </div>
-                          {post.tags && post.tags.length > 0 && (
+                          {Array.isArray(post.tags) && post.tags.length > 0 && (
                             <div className="flex flex-wrap gap-1 mt-1">
                               {post.tags.slice(0, 3).map(tag => (
                                 <span key={tag} className="px-2 py-1 bg-gray-100 dark:bg-gray-600 text-gray-600 dark:text-gray-300 text-xs rounded">
@@ -593,9 +614,15 @@ export default function BlogAdmin({}: BlogAdminProps) {
                       {new Date(post.date).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">
-                        Published
-                      </span>
+                      {post.status === 'published' ? (
+                        <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">
+                          Published
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs rounded-full">
+                          Draft
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">

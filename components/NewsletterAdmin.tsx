@@ -1,49 +1,49 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSupabaseAuth } from '@/lib/useSupabaseAuth'
 import { Mail, Users, Download, Trash2, Calendar } from 'lucide-react'
+import { fetchSubscribers, addSubscriber, deleteSubscriber } from '@/lib/newsletterApi'
 
 interface Subscriber {
+  id: number
   email: string
-  subscribedAt: string
-  status: 'active' | 'unsubscribed'
+  subscribed_at: string
 }
 
 export default function NewsletterAdmin() {
+  const { user, loading: authLoading } = useSupabaseAuth();
   const [subscribers, setSubscribers] = useState<Subscriber[]>([])
   const [stats, setStats] = useState({
     total: 0,
-    active: 0,
     thisMonth: 0
   })
+  const [loading, setLoading] = useState(false)
+  const [email, setEmail] = useState('')
 
   useEffect(() => {
-    loadSubscribers()
-  }, [])
-
-  const loadSubscribers = () => {
-    const data = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]')
-    setSubscribers(data)
-    
-    const now = new Date()
-    const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
-    
-    setStats({
-      total: data.length,
-      active: data.filter((sub: Subscriber) => sub.status === 'active').length,
-      thisMonth: data.filter((sub: Subscriber) => 
-        new Date(sub.subscribedAt) >= thisMonth && sub.status === 'active'
-      ).length
-    })
-  }
+    if (!user) return;
+    setLoading(true)
+    fetchSubscribers()
+      .then((data) => {
+        setSubscribers(data || [])
+        // Calculate stats
+        const now = new Date()
+        const thisMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+        setStats({
+          total: data?.length || 0,
+          thisMonth: (data || []).filter((sub: Subscriber) => new Date(sub.subscribed_at) >= thisMonth).length
+        })
+      })
+      .finally(() => setLoading(false))
+  }, [user])
 
   const exportSubscribers = () => {
     const csvContent = [
-      ['Email', 'Subscribed Date', 'Status'],
+      ['Email', 'Subscribed Date'],
       ...subscribers.map(sub => [
         sub.email,
-        new Date(sub.subscribedAt).toLocaleDateString(),
-        sub.status
+        new Date(sub.subscribed_at).toLocaleDateString()
       ])
     ].map(row => row.join(',')).join('\n')
 
@@ -56,11 +56,43 @@ export default function NewsletterAdmin() {
     window.URL.revokeObjectURL(url)
   }
 
-  const removeSubscriber = (email: string) => {
-    const updated = subscribers.filter(sub => sub.email !== email)
-    localStorage.setItem('newsletter_subscribers', JSON.stringify(updated))
-    setSubscribers(updated)
-    loadSubscribers()
+  const handleAddSubscriber = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+    setLoading(true)
+    try {
+      const created = await addSubscriber(email)
+      setSubscribers(prev => [created[0], ...prev])
+      setEmail('')
+    } catch (err) {
+      alert('Error adding subscriber: ' + (err as Error).message)
+    }
+    setLoading(false)
+  }
+
+  const handleDeleteSubscriber = async (id: number) => {
+    if (confirm('Are you sure you want to delete this subscriber?')) {
+      setLoading(true)
+      try {
+        await deleteSubscriber(id)
+        setSubscribers(prev => prev.filter(sub => sub.id !== id))
+      } catch (err) {
+        alert('Error deleting subscriber: ' + (err as Error).message)
+      }
+      setLoading(false)
+    }
+  }
+
+  if (authLoading) {
+    return <div className="flex justify-center items-center min-h-screen">Checking authentication...</div>;
+  }
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h2 className="text-2xl font-bold mb-4">Admin Login Required</h2>
+        <a href="/admin/login" className="px-4 py-2 bg-blue-600 text-white rounded-lg">Go to Admin Login</a>
+      </div>
+    );
   }
 
   return (
@@ -84,15 +116,7 @@ export default function NewsletterAdmin() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Active Subscribers</p>
-              <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-            </div>
-            <Mail className="w-8 h-8 text-green-600" />
-          </div>
-        </div>
+        {/* Removed Active Subscribers card: not tracked in Supabase schema */}
 
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
@@ -106,23 +130,40 @@ export default function NewsletterAdmin() {
       </div>
 
       {/* Actions */}
-      <div className="flex gap-4 mb-6">
+      <form onSubmit={handleAddSubscriber} className="flex gap-4 mb-6">
+        <input
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="Add subscriber email"
+          className="px-4 py-2 border border-gray-300 rounded-lg"
+          required
+        />
         <button
+          type="submit"
+          className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+          disabled={loading}
+        >
+          Add Subscriber
+        </button>
+        <button
+          type="button"
           onClick={exportSubscribers}
           className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           <Download className="w-4 h-4" />
           Export CSV
         </button>
-      </div>
+      </form>
 
       {/* Subscribers Table */}
       <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-lg font-semibold">Subscribers ({subscribers.length})</h2>
         </div>
-        
-        {subscribers.length === 0 ? (
+        {loading ? (
+          <div className="p-8 text-center text-gray-500 dark:text-gray-400">Loading...</div>
+        ) : subscribers.length === 0 ? (
           <div className="p-8 text-center text-gray-500 dark:text-gray-400">
             <Mail className="w-12 h-12 mx-auto mb-4 opacity-50" />
             <p>No subscribers yet. Promote your newsletter to get started!</p>
@@ -138,35 +179,23 @@ export default function NewsletterAdmin() {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Subscribed Date
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Status
-                  </th>
                   <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {subscribers.map((subscriber, index) => (
-                  <tr key={subscriber.email} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                {subscribers.map((subscriber) => (
+                  <tr key={subscriber.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
                       {subscriber.email}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      {new Date(subscriber.subscribedAt).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                        subscriber.status === 'active' 
-                          ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                          : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                      }`}>
-                        {subscriber.status}
-                      </span>
+                      {new Date(subscriber.subscribed_at).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
                       <button
-                        onClick={() => removeSubscriber(subscriber.email)}
+                        onClick={() => handleDeleteSubscriber(subscriber.id)}
                         className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors"
                         title="Remove subscriber"
                       >
