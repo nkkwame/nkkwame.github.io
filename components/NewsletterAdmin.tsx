@@ -101,15 +101,7 @@ export default function NewsletterAdmin() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Active Subscribers</p>
-              <p className="text-2xl font-bold text-green-600">{stats.active}</p>
-            </div>
-            <Mail className="w-8 h-8 text-green-600" />
-          </div>
-        </div>
+        {/* Removed Active Subscribers card: not tracked in Supabase schema */}
 
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between">
