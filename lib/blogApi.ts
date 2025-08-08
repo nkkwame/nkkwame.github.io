@@ -1,6 +1,22 @@
+
 import { supabase } from '@/lib/supabaseClient'
 
-export async function fetchBlogPosts() {
+// BlogPost type (keep in sync with data/blogData.ts)
+export interface BlogPost {
+  id: number
+  title: string
+  excerpt: string
+  date: string
+  category: string
+  image: string
+  youtubeVideoId?: string
+  youtubeTitle?: string
+  tags?: string[]
+  readTime?: number
+  author?: string
+}
+
+export async function fetchBlogPosts(): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from('blog_posts')
     .select('*')
@@ -9,7 +25,7 @@ export async function fetchBlogPosts() {
   return data
 }
 
-export async function createBlogPost(post) {
+export async function createBlogPost(post: Omit<BlogPost, 'id'>): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from('blog_posts')
     .insert([post])
@@ -18,7 +34,7 @@ export async function createBlogPost(post) {
   return data
 }
 
-export async function updateBlogPost(id, updates) {
+export async function updateBlogPost(id: number, updates: Partial<Omit<BlogPost, 'id'>>): Promise<BlogPost[]> {
   const { data, error } = await supabase
     .from('blog_posts')
     .update(updates)
@@ -28,7 +44,7 @@ export async function updateBlogPost(id, updates) {
   return data
 }
 
-export async function deleteBlogPost(id) {
+export async function deleteBlogPost(id: number): Promise<boolean> {
   const { error } = await supabase
     .from('blog_posts')
     .delete()

@@ -96,10 +96,10 @@ export default function BlogAdmin({}: BlogAdminProps) {
       date: editingPost ? editingPost.date : new Date().toISOString().split('T')[0],
       category: formData.category || 'Development',
       image: formData.image || 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400&h=300&fit=crop',
-      youtube_video_id: formData.youtubeVideoId || '',
-      youtube_title: formData.youtubeTitle || '',
+      youtubeVideoId: formData.youtubeVideoId || '',
+      youtubeTitle: formData.youtubeTitle || '',
       tags: formData.tags || [],
-      read_time: formData.readTime || 5,
+      readTime: formData.readTime || 5,
       author: formData.author || 'Kwame Nkrumah'
     }
     try {

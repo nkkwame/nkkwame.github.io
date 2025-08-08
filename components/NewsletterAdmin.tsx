@@ -147,53 +147,59 @@ export default function NewsletterAdmin() {
           <h2 className="text-lg font-semibold">Subscribers ({subscribers.length})</h2>
         </div>
         
-        {loading ? (
-          <div className="p-8 text-center text-gray-500 dark:text-gray-400">Loading...</div>
-        ) : subscribers.length === 0 ? (
-          <div className="p-8 text-center text-gray-500 dark:text-gray-400">
-            <Mail className="w-12 h-12 mx-auto mb-4 opacity-50" />
-            <p>No subscribers yet. Promote your newsletter to get started!</p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50 dark:bg-gray-700">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Email
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Subscribed Date
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                {subscribers.map((subscriber) => (
-                  <tr key={subscriber.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                      {subscriber.email}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                      {new Date(subscriber.subscribed_at).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
-                      <button
-                        onClick={() => handleDeleteSubscriber(subscriber.id)}
-                        className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors"
-                        title="Remove subscriber"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
+        {(() => {
+          if (loading) {
+            return <div className="p-8 text-center text-gray-500 dark:text-gray-400">Loading...</div>;
+          }
+          if (subscribers.length === 0) {
+            return (
+              <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+                <Mail className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p>No subscribers yet. Promote your newsletter to get started!</p>
+              </div>
+            );
+          }
+          return (
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-gray-50 dark:bg-gray-700">
+                  <tr>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Email
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Subscribed Date
+                    </th>
+                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                      Actions
+                    </th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                  {subscribers.map((subscriber) => (
+                    <tr key={subscriber.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                        {subscriber.email}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        {new Date(subscriber.subscribed_at).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
+                        <button
+                          onClick={() => handleDeleteSubscriber(subscriber.id)}
+                          className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 transition-colors"
+                          title="Remove subscriber"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        })()}
       </div>
     </div>
   )
