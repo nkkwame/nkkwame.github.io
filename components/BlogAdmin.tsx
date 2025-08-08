@@ -9,20 +9,16 @@ import {
   Eye, 
   Save, 
   X, 
-  Calendar, 
   Tag, 
-  Clock, 
   Download,
   Upload,
   BookOpen,
   TrendingUp,
-  Users,
   FileText,
   Search,
   Filter
 } from 'lucide-react'
-import { BlogPost } from '@/data/blogData'
-import { fetchBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost } from '@/lib/blogApi'
+import { BlogPost, fetchBlogPosts, createBlogPost, updateBlogPost, deleteBlogPost } from '@/lib/blogApi'
 
 // Mock blog posts data (in real app, this would come from your backend/CMS)
 const categories = ['Development', 'Education', 'Content Creation']
@@ -36,6 +32,7 @@ const availableTags = [
 interface BlogAdminProps {}
 
 export default function BlogAdmin() {
+  const [filterStatus, setFilterStatus] = useState<'all' | 'published' | 'draft'>('all');
   const { user, loading: authLoading } = useSupabaseAuth();
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([])
   const [isCreating, setIsCreating] = useState(false)
@@ -55,7 +52,8 @@ export default function BlogAdmin() {
     youtubeTitle: '',
     tags: [],
     readTime: 5,
-    author: 'Kwame Nkrumah'
+    author: 'Kwame Nkrumah',
+    status: 'draft',
   })
 
   // Load blog posts from Supabase on component mount
@@ -82,17 +80,17 @@ export default function BlogAdmin() {
   const filteredPosts = blogPosts.filter(post => {
     const matchesSearch = searchTerm === '' || 
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-    
-    const matchesCategory = filterCategory === 'all' || post.category === filterCategory
-    
-    return matchesSearch && matchesCategory
-  })
+      post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesCategory = filterCategory === 'all' || post.category === filterCategory;
+    const matchesStatus = filterStatus === 'all' || post.status === filterStatus;
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
 
   // Statistics
   const stats = {
     total: blogPosts.length,
-    published: blogPosts.length, // In real app, you'd have draft/published status
+    published: blogPosts.filter(post => post.status === 'published').length,
+    drafts: blogPosts.filter(post => post.status === 'draft').length,
     thisMonth: blogPosts.filter(post => {
       const postDate = new Date(post.date)
       const now = new Date()
@@ -101,9 +99,10 @@ export default function BlogAdmin() {
     categories: Array.from(new Set(blogPosts.map(post => post.category))).length
   }
 
+  // Save as Draft or Publish
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     const postData: Omit<BlogPost, 'id'> = {
       title: formData.title ?? '',
       excerpt: formData.excerpt ?? '',
@@ -114,22 +113,32 @@ export default function BlogAdmin() {
       youtubeTitle: formData.youtubeTitle ?? '',
       tags: formData.tags ?? [],
       readTime: formData.readTime ?? 5,
-      author: formData.author ?? 'Kwame Nkrumah'
-    }
+      author: formData.author ?? 'Kwame Nkrumah',
+      status: formData.status ?? 'draft',
+    };
     try {
       if (editingPost) {
-        const updated = await updateBlogPost(editingPost.id, postData)
-        setBlogPosts(prev => prev.map(post => post.id === editingPost.id ? updated[0] : post))
+        const updated = await updateBlogPost(editingPost.id, postData);
+        setBlogPosts(prev => prev.map(post => post.id === editingPost.id ? updated[0] : post));
       } else {
-        const created = await createBlogPost(postData)
-        setBlogPosts(prev => [created[0], ...prev])
+        const created = await createBlogPost(postData);
+        setBlogPosts(prev => [created[0], ...prev]);
       }
-      resetForm()
+      resetForm();
     } catch (err) {
-      alert('Error saving post: ' + (err as Error).message)
+      alert('Error saving post: ' + (err as Error).message);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
+
+  // Save as Draft
+  const handleSaveDraft = () => {
+    setFormData(prev => ({ ...prev, status: 'draft' }));
+  };
+  // Publish
+  const handlePublish = () => {
+    setFormData(prev => ({ ...prev, status: 'published' }));
+  };
 
   const resetForm = () => {
     setFormData({
@@ -141,17 +150,18 @@ export default function BlogAdmin() {
       youtubeTitle: '',
       tags: [],
       readTime: 5,
-      author: 'Kwame Nkrumah'
-    })
-    setIsCreating(false)
-    setEditingPost(null)
-  }
+      author: 'Kwame Nkrumah',
+      status: 'draft',
+    });
+    setIsCreating(false);
+    setEditingPost(null);
+  };
 
   const handleEdit = (post: BlogPost) => {
-    setEditingPost(post)
-    setFormData(post)
-    setIsCreating(true)
-  }
+    setEditingPost(post);
+    setFormData(post);
+    setIsCreating(true);
+  };
 
   const handleDelete = async (id: number) => {
     if (confirm('Are you sure you want to delete this blog post?')) {
@@ -501,6 +511,22 @@ export default function BlogAdmin() {
                   Cancel
                 </button>
                 <button
+                  type="button"
+                  onClick={() => { handleSaveDraft(); }}
+                  className="flex items-center space-x-2 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Save as Draft</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { handlePublish(); }}
+                  className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  <Save className="w-4 h-4" />
+                  <span>Publish</span>
+                </button>
+                <button
                   type="submit"
                   className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
@@ -588,9 +614,15 @@ export default function BlogAdmin() {
                       {new Date(post.date).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">
-                        Published
-                      </span>
+                      {post.status === 'published' ? (
+                        <span className="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded-full">
+                          Published
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 text-xs rounded-full">
+                          Draft
+                        </span>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <div className="flex justify-end space-x-2">
