@@ -30,28 +30,28 @@ export default function Skills() {
     { 
       category: 'Frontend', 
       items: [
-        { name: 'React', level: 5 },
-        { name: 'Next.js', level: 5 },
-        { name: 'TypeScript', level: 4 },
-        { name: 'Tailwind CSS', level: 5 }
+        { name: 'React', level: 4 },
+        { name: 'Next.js', level: 3 },
+        { name: 'TypeScript', level: 3 },
+        { name: 'Tailwind CSS', level: 4 }
       ] 
     },
     { 
       category: 'Backend', 
       items: [
-        { name: 'Node.js', level: 4 },
+        { name: 'Node.js', level: 3 },
         { name: 'Python', level: 4 },
         { name: 'PostgreSQL', level: 3 },
-        { name: 'MongoDB', level: 4 }
+        { name: 'MongoDB', level: 3 }
       ] 
     },
     { 
       category: 'Tools', 
       items: [
-        { name: 'Git', level: 5 },
+        { name: 'Git', level: 4 },
         { name: 'Docker', level: 3 },
         { name: 'AWS', level: 3 },
-        { name: 'VS Code', level: 5 }
+        { name: 'VS Code', level: 4 }
       ] 
     },
     { 
@@ -120,48 +120,6 @@ export default function Skills() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Legend */}
-        <div className="mt-12 text-center">
-          <h4 className="text-lg font-semibold mb-6 text-gray-700 dark:text-gray-300">Proficiency Levels</h4>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Expert</span>
-              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full">
-                <div className="w-full h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-              </div>
-              <span className="text-xs text-gray-500">100%</span>
-            </div>
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Advanced</span>
-              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full">
-                <div className="w-4/5 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-              </div>
-              <span className="text-xs text-gray-500">80%</span>
-            </div>
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Intermediate</span>
-              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full">
-                <div className="w-3/5 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-              </div>
-              <span className="text-xs text-gray-500">60%</span>
-            </div>
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Beginner</span>
-              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full">
-                <div className="w-2/5 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-              </div>
-              <span className="text-xs text-gray-500">40%</span>
-            </div>
-            <div className="flex flex-col items-center space-y-2">
-              <span className="text-sm font-medium text-gray-600 dark:text-gray-400">Learning</span>
-              <div className="w-full h-3 bg-gray-200 dark:bg-gray-700 rounded-full">
-                <div className="w-1/5 h-3 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-              </div>
-              <span className="text-xs text-gray-500">20%</span>
-            </div>
-          </div>
         </div>
       </div>
     </section>
