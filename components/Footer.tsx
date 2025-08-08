@@ -19,9 +19,9 @@ export default function Footer() {
           <div className="md:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold">K</span>
+                <span className="text-white font-bold">KN</span>
               </div>
-              <span className="font-bold text-xl gradient-text">Kwame</span>
+              <span className="font-bold text-xl gradient-text">KWAME</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-400 mb-4 max-w-md">
               Full-stack developer, IT educator, and content creator passionate about 
