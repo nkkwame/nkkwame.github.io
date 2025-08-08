@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useSupabaseAuth } from '@/lib/useSupabaseAuth'
 import { Mail, Users, Download, Trash2, Calendar } from 'lucide-react'
 import { fetchSubscribers, addSubscriber, deleteSubscriber } from '@/lib/newsletterApi'
 
@@ -11,6 +12,7 @@ interface Subscriber {
 }
 
 export default function NewsletterAdmin() {
+  const { user, loading: authLoading } = useSupabaseAuth();
   const [subscribers, setSubscribers] = useState<Subscriber[]>([])
   const [stats, setStats] = useState({
     total: 0,
@@ -20,6 +22,7 @@ export default function NewsletterAdmin() {
   const [email, setEmail] = useState('')
 
   useEffect(() => {
+    if (!user) return;
     setLoading(true)
     fetchSubscribers()
       .then((data) => {
@@ -33,7 +36,7 @@ export default function NewsletterAdmin() {
         })
       })
       .finally(() => setLoading(false))
-  }, [])
+  }, [user])
 
   const exportSubscribers = () => {
     const csvContent = [
@@ -78,6 +81,18 @@ export default function NewsletterAdmin() {
       }
       setLoading(false)
     }
+  }
+
+  if (authLoading) {
+    return <div className="flex justify-center items-center min-h-screen">Checking authentication...</div>;
+  }
+  if (!user) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <h2 className="text-2xl font-bold mb-4">Admin Login Required</h2>
+        <a href="/admin/login" className="px-4 py-2 bg-blue-600 text-white rounded-lg">Go to Admin Login</a>
+      </div>
+    );
   }
 
   return (
