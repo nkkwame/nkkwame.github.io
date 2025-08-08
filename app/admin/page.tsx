@@ -1,4 +1,6 @@
 
+
+'use client'
 import Link from 'next/link'
 import { Mail, BookOpen, Users, FileText, TrendingUp, Settings } from 'lucide-react'
 import NewsletterAdmin from '@/components/NewsletterAdmin'
@@ -6,7 +8,8 @@ import BlogAdmin from '@/components/BlogAdmin'
 import { useState } from 'react'
 import { useSupabaseAuth } from '@/lib/useSupabaseAuth'
 
-  // Client-side state for switching admin views
+
+export default function AdminPage() {
   const [activeSection, setActiveSection] = useState<'newsletter' | 'blog'>('newsletter');
   const { user, loading: authLoading } = useSupabaseAuth();
 
